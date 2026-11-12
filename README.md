@@ -46,7 +46,6 @@ Never put the Resend key in this repo. It belongs only in Vercel's settings.
 ## Still to do before launch
 
 - [ ] Confirm menu items and prices (current ones come from the A-frame sign mockup)
-- [ ] Set the real next stop each week: edit `NEXT_STOP` near the bottom of `index.html` (it updates the first screen and the Next Stop poster)
 - [ ] Set up booking on Vercel and Resend (see "Setting up booking" above)
 - [ ] Switch booking emails to the owner's inbox before launch
 - [ ] Add brand fonts if licensed (Tenacious and Hundrea). Archivo is standing in for headlines.

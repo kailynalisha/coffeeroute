@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Coffee Route — Taste Colombia From The Top</title>
-<meta name="description" content="Coffee Route is a mobile Colombian coffee Jeep in Charlotte, NC. Taste Colombia from the top.">
+<meta name="description" content="Coffee Route is a Colombian coffee Jeep popping up around Charlotte, NC. Follow the pop-ups or book the Jeep for your event.">
 <meta property="og:title" content="Coffee Route — Taste Colombia From The Top">
 <meta property="og:description" content="A Colombian coffee Jeep on the road in Charlotte, NC.">
 <meta property="og:image" content="assets/photo-007.jpg">
@@ -74,10 +74,8 @@
   .hero .logo{position:absolute;left:50%;top:37%;width:min(60vw,44svh,400px);transform:translate(-50%,-50%);z-index:2}
   .hero .foot{position:absolute;left:0;right:0;bottom:6vh;z-index:6;display:grid;justify-items:center;gap:1.1rem;text-align:center;padding:0 var(--pad)}
   .hero .what{color:var(--sand)}
-  .hero .next{display:inline-flex;align-items:center;gap:.9em;border:1px solid rgba(255,251,230,.55);padding:1em 1.5em;transition:background .25s,color .25s}
-  .hero .next:hover{background:var(--cream);color:var(--forest)}
-  .hero .next b{color:var(--sand);font-weight:700;transition:color .25s}
-  .hero .next:hover b{color:var(--olive)}
+  .hero .pop{color:var(--cream);border-bottom:1px solid rgba(255,251,230,.6);padding:.2em 0 .55em;transition:border-color .25s,color .25s}
+  .hero .pop:hover{color:var(--sand);border-color:var(--sand)}
   .ridges{position:absolute;inset:0;z-index:4;pointer-events:none}
   .ridges svg{position:absolute;left:0;bottom:-2px;width:100%;height:44%;will-change:transform}
 
@@ -213,8 +211,8 @@
     <svg data-speed=".40" viewBox="0 0 1440 600" preserveAspectRatio="none"><path d="M0 530 C 280 480, 640 590, 960 520 S 1300 480, 1440 530 V600 H0Z" fill="#161c00"/></svg>
   </div>
   <div class="foot">
-    <p class="what label">A Colombian coffee Jeep in Charlotte, NC</p>
-    <a class="next label" href="#find"><b>Next stop</b><span id="hero-stop">See this week's route</span><span aria-hidden="true">↓</span></a>
+    <p class="what label">A coffee Jeep popping up around Charlotte, NC</p>
+    <a class="pop label" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Catch our next pop-up <span aria-hidden="true">↗</span></a>
   </div>
 </section>
 
@@ -225,9 +223,9 @@
   <div class="slide"><img src="assets/photo-007.jpg" alt="A hand reaching for a Coffee Route latte" loading="lazy"></div>
   <div class="cap">
     <span class="label">Taste Colombia from the top</span>
-    <p class="line" id="story-line" aria-live="polite">It starts high in the mountains of Colombia.</p>
+    <p class="line" id="story-line" aria-live="polite">It starts high in the Andes.</p>
     <div class="tabs" role="tablist" aria-label="Our story">
-      <button class="label" role="tab" aria-selected="true"  data-line="It starts high in the mountains of Colombia.">The mountains</button>
+      <button class="label" role="tab" aria-selected="true"  data-line="It starts high in the Andes.">The mountains</button>
       <button class="label" role="tab" aria-selected="false" data-line="Every bean carries its valleys and climates, warm and cold, humid and dry.">The bean</button>
       <button class="label" role="tab" aria-selected="false" data-line="And it ends in your hand, wherever the route takes us.">The cup</button>
     </div>
@@ -279,9 +277,8 @@
   <div class="in">
     <img class="jeep" src="assets/logo-jeep-olive.png" alt="">
     <h2 class="next">Next stop</h2>
-    <!-- TODO: update each week with the real stop -->
-    <p class="where" id="stop-where">This week's stop<br>is on Instagram</p>
-    <a class="label ig" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">@coffeerouteclt</a>
+    <p class="where">A new pop-up<br>every week</p>
+    <a class="label ig" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">See where on Instagram</a>
   </div>
 </section>
 
@@ -338,15 +335,6 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
-
-  // ---- Next stop ----
-  // Type the stop here and it shows in two places: under the logo and on the Next Stop poster.
-  // Leave it empty ("") to point people to Instagram instead.
-  const NEXT_STOP = "";   // example: "Saturday · South End Market · 8am to 12pm"
-  if (NEXT_STOP) {
-    document.getElementById('hero-stop').textContent = NEXT_STOP;
-    document.getElementById('stop-where').textContent = NEXT_STOP;
-  }
 
   // Altitude: Nevado del Huila (5,364 m) at the top of the page, Charlotte (229 m) at the bottom.
   const TOP = 5364, BOTTOM = 229;
