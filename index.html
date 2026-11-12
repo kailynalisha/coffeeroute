@@ -86,8 +86,16 @@
   .story .slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
   .story .slide.on{opacity:1}
   .story .slide img{width:100%;height:100%;object-fit:cover}
-  .story .slide.map{background:var(--forest)}
-  .story .slide.map img{object-fit:cover;object-position:28% 38%;transform:scale(1.9);transform-origin:28% 38%;filter:sepia(.35) saturate(1.1) brightness(.82) contrast(1.05)}
+  /* The map slide is pale: the whole relief of Colombia at its real size, blended into sand */
+  .story .slide.map{background:var(--sand)}
+  .story .slide.map img{object-fit:contain;object-position:82% 50%;padding:7vh 0 5vh;mix-blend-mode:multiply;filter:brightness(1.06) contrast(1.04)}
+  .story{transition:color .6s}
+  .story::before{transition:opacity .9s}
+  .story.pale{color:var(--olive)}
+  .story.pale::before{opacity:0}
+  .story.pale .cap .label{color:var(--olive)}
+  .story.pale .tabs button{color:var(--olive);border-bottom-color:rgba(66,65,6,.3)}
+  .story.pale .tabs button[aria-selected="true"]{border-bottom-color:var(--olive)}
   .story .cap p{min-height:2.4em}
   .tabs{display:flex;gap:clamp(18px,3vw,36px);margin-top:2rem;flex-wrap:wrap}
   .tabs button{font:inherit;background:none;border:0;color:var(--cream);cursor:pointer;padding:0 0 .7rem;border-bottom:1px solid rgba(255,251,230,.3);opacity:.6;transition:opacity .3s,border-color .3s;min-width:7.5rem;text-align:left}
@@ -174,8 +182,9 @@
     .stop .where{letter-spacing:.22em}
     .ridges svg{height:38%}
     .tabs{gap:12px}
+    .story .slide.map img{object-position:50% 0;padding:84px 0 0;height:62%}
     .book{grid-template-columns:1fr}
-    .tabs button{font-size:.66rem;letter-spacing:.1em;white-space:nowrap}
+    .tabs button{font-size:.62rem;letter-spacing:.06em;white-space:nowrap}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -209,7 +218,7 @@
 </section>
 
 <!-- 3. STORY -->
-<section class="scene story grain" id="story">
+<section class="scene story grain pale" id="story" data-tone="light">
   <div class="slide map on"><img src="assets/photo-map.jpg" alt="Relief map of Colombia's mountain ranges"></div>
   <div class="slide"><img src="assets/photo-beans.jpg" alt="Roasted coffee beans" loading="lazy"></div>
   <div class="slide"><img src="assets/photo-007.jpg" alt="A hand reaching for a Coffee Route latte" loading="lazy"></div>
@@ -335,8 +344,7 @@
   const ridges = [...document.querySelectorAll('.ridges svg')];
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const altEl = document.querySelector('.alt');
-  const lights = [...document.querySelectorAll('[data-tone="light"]')];
-  const toneAt = y => lights.some(el => { const r = el.getBoundingClientRect(); return r.top <= y && r.bottom > y; });
+  const toneAt = y => [...document.querySelectorAll('[data-tone="light"]')].some(el => { const r = el.getBoundingClientRect(); return r.top <= y && r.bottom > y; });
   let ticking = false;
   function frame(){
     ticking = false;
@@ -421,6 +429,10 @@
   tabs.forEach((b, i) => b.addEventListener('click', () => {
     tabs.forEach((x, j) => x.setAttribute('aria-selected', j === i));
     slides.forEach((s, j) => s.classList.toggle('on', j === i));
+    const story = document.getElementById('story');            // the map slide is pale, the photo slides are dark
+    story.classList.toggle('pale', i === 0);
+    if (i === 0) story.dataset.tone = 'light'; else delete story.dataset.tone;
+    frame();
     line.textContent = b.dataset.line;
   }));
 </script>
