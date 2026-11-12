@@ -37,7 +37,7 @@
   :focus-visible{outline:1px solid currentColor;outline-offset:4px}
 
   /* The one small-text style used everywhere (like the tracked caps on the brand's t-shirt and cards) */
-  .label{font-weight:700;font-size:.68rem;letter-spacing:.42em;text-transform:uppercase}
+  .label{font-weight:700;font-size:.8rem;letter-spacing:.26em;text-transform:uppercase}
   .line{font-weight:200;font-size:clamp(1.5rem,3.2vw,2.9rem);line-height:1.18;letter-spacing:.005em;text-wrap:balance}
 
   /* Warm film grain over photos (brand photo style: movement, not "HD") */
@@ -50,8 +50,12 @@
   .nav::before{content:"";position:absolute;inset:0 0 -26px 0;z-index:-1;opacity:0;transition:opacity .35s;background:linear-gradient(180deg,rgba(22,28,0,.92) 35%,rgba(22,28,0,0))}
   .nav.light::before{background:linear-gradient(180deg,rgba(255,251,230,.95) 35%,rgba(255,251,230,0))}
   .nav.past::before{opacity:1}
-  .nav a{pointer-events:auto}
-  .nav .l,.nav .r{display:flex;gap:clamp(14px,3vw,40px)}
+  .nav a{pointer-events:auto;padding:1.1em 0}
+  .nav .cta{background:var(--sand);color:var(--forest);padding:.9em 1.3em;transition:background .25s,color .25s}
+  .nav .cta:hover{background:var(--cream)}
+  .nav.light .cta{background:var(--olive);color:var(--cream)}
+  .nav.light .cta:hover{background:var(--forest)}
+  .nav .l,.nav .r{display:flex;align-items:center;gap:clamp(14px,2.6vw,36px)}
   .nav .r{justify-content:flex-end}
   .nav .mark{width:54px;opacity:0;transition:opacity .4s}
   .nav.past .mark{opacity:1}
@@ -68,7 +72,12 @@
   .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;color:var(--cream);
     background:radial-gradient(120% 80% at 50% 0%, #37440a 0%, var(--forest) 45%, var(--night) 100%)}
   .hero .logo{position:absolute;left:50%;top:37%;width:min(60vw,44svh,400px);transform:translate(-50%,-50%);z-index:2}
-  .hero .tag{position:absolute;left:0;right:0;bottom:7.5vh;text-align:center;z-index:6;color:var(--sand)}
+  .hero .foot{position:absolute;left:0;right:0;bottom:6vh;z-index:6;display:grid;justify-items:center;gap:1.1rem;text-align:center;padding:0 var(--pad)}
+  .hero .what{color:var(--sand)}
+  .hero .next{display:inline-flex;align-items:center;gap:.9em;border:1px solid rgba(255,251,230,.55);padding:1em 1.5em;transition:background .25s,color .25s}
+  .hero .next:hover{background:var(--cream);color:var(--forest)}
+  .hero .next b{color:var(--sand);font-weight:700;transition:color .25s}
+  .hero .next:hover b{color:var(--olive)}
   .ridges{position:absolute;inset:0;z-index:4;pointer-events:none}
   .ridges svg{position:absolute;left:0;bottom:-2px;width:100%;height:44%;will-change:transform}
 
@@ -96,7 +105,7 @@
   .menu ul{list-style:none;columns:2;column-gap:clamp(32px,6vw,110px)}
   .menu li{break-inside:avoid;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.55em 0;border-bottom:1px solid rgba(66,65,6,.22)}
   .menu li span:first-child{font-weight:200;font-size:clamp(1.5rem,3.1vw,2.7rem);line-height:1.15}
-  .menu li span:last-child{font-weight:600;font-size:.85rem;letter-spacing:.12em;font-variant-numeric:tabular-nums}
+  .menu li span:last-child{font-weight:600;font-size:1.02rem;letter-spacing:.08em;font-variant-numeric:tabular-nums}
   .menu .foot{margin-top:2.2rem;font-size:.9rem;opacity:.75}
 
   /* ---------- 5. Next stop: the brand poster, full bleed ---------- */
@@ -129,7 +138,7 @@
   .book textarea{min-height:5.5rem;resize:vertical}
   .book input:focus,.book select:focus,.book textarea:focus{outline:none;border-bottom-color:var(--cream)}
   .book [aria-invalid="true"],.book [aria-invalid="true"]:focus{border-bottom-color:#f0a070;border-bottom-width:2px}
-  .book .ferr{color:#f0b596;font-size:.9rem;line-height:1.35;margin-top:.45rem}
+  .book .ferr{color:#f0b596;font-size:.98rem;line-height:1.35;margin-top:.45rem}
   .book .ferr:empty{display:none}
   .book .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
   .book .row{display:flex;align-items:center;gap:1.6rem;flex-wrap:wrap}
@@ -140,7 +149,7 @@
   .book .msg{font-size:.98rem;min-height:1.5em}
   .book .msg.err{color:#f0b596}
   .events .done{display:grid;gap:1.4rem;max-width:34rem}
-  .events .alt-contact{font-size:.95rem;opacity:.75}
+  .events .alt-contact{font-size:1.02rem;opacity:.8}
   .events .alt-contact a{border-bottom:1px solid currentColor}
 
   /* ---------- 7. Footer: the ridges settle ---------- */
@@ -157,20 +166,22 @@
     .menu ul{columns:1}
   }
   @media (max-width:560px){
-    .label{font-size:.6rem;letter-spacing:.3em}
+    .label{font-size:.72rem;letter-spacing:.18em}
     .nav .l,.nav .r{gap:12px}
     .nav a{white-space:nowrap}
-    .nav .wide{display:none}
+    .nav .wide,.nav .ig-top{display:none}
+    .nav{padding-top:10px;padding-bottom:10px}
     .about .pic{min-height:105vw}
     .nav .mark{width:40px}
     .alt span{display:none}
-    .alt{left:auto;right:var(--pad)}
+    .alt{left:auto;right:10px;bottom:10px;padding:.55em .8em;background:rgba(22,28,0,.82)}
+    .alt.light{background:rgba(255,251,230,.9)}
     .tabs button{min-width:0;flex:1}
     .stop .where{letter-spacing:.22em}
     .ridges svg{height:38%}
     .tabs{gap:12px}
     .book{grid-template-columns:1fr}
-    .tabs button{font-size:.56rem;letter-spacing:.18em;white-space:nowrap}
+    .tabs button{font-size:.66rem;letter-spacing:.1em;white-space:nowrap}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -184,7 +195,7 @@
 <header class="nav" id="nav">
   <div class="l"><a class="label" href="#about">About</a><a class="label" href="#menu">Menu</a><a class="label" href="#find">Find<span class="wide"> the Jeep</span></a></div>
   <a class="mark" href="#top" aria-label="Coffee Route, back to top"><img class="c" src="assets/logo-jeep-cream.png" alt=""><img class="o" src="assets/logo-jeep-olive.png" alt=""></a>
-  <div class="r"><a class="label" href="#events">Events</a><a class="label" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram</a></div>
+  <div class="r"><a class="label ig-top" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram</a><a class="label cta" href="#events">Book<span class="wide"> the Jeep</span></a></div>
 </header>
 
 <!-- Altitude reading: falls from the peak to Charlotte as you scroll -->
@@ -201,15 +212,9 @@
     <svg data-speed=".28" viewBox="0 0 1440 600" preserveAspectRatio="none"><path d="M0 450 C 300 380, 560 520, 900 430 S 1280 380, 1440 450 V600 H0Z" fill="#2c3606"/></svg>
     <svg data-speed=".40" viewBox="0 0 1440 600" preserveAspectRatio="none"><path d="M0 530 C 280 480, 640 590, 960 520 S 1300 480, 1440 530 V600 H0Z" fill="#161c00"/></svg>
   </div>
-  <p class="tag label">Taste Colombia from the top</p>
-</section>
-
-<!-- 2. ONE PHOTO, ONE LINE -->
-<section class="scene grain">
-  <img class="bg" src="assets/photo-005.jpg" alt="Barista pouring steamed milk into a green Coffee Route cup" style="object-position:52% 50%">
-  <div class="cap">
-    <span class="label">Charlotte, NC</span>
-    <p class="line">A Colombian coffee Jeep, on the road.</p>
+  <div class="foot">
+    <p class="what label">A Colombian coffee Jeep in Charlotte, NC</p>
+    <a class="next label" href="#find"><b>Next stop</b><span id="hero-stop">See this week's route</span><span aria-hidden="true">↓</span></a>
   </div>
 </section>
 
@@ -219,6 +224,7 @@
   <div class="slide"><img src="assets/photo-beans.jpg" alt="Roasted coffee beans" loading="lazy"></div>
   <div class="slide"><img src="assets/photo-007.jpg" alt="A hand reaching for a Coffee Route latte" loading="lazy"></div>
   <div class="cap">
+    <span class="label">Taste Colombia from the top</span>
     <p class="line" id="story-line" aria-live="polite">It starts high in the mountains of Colombia.</p>
     <div class="tabs" role="tablist" aria-label="Our story">
       <button class="label" role="tab" aria-selected="true"  data-line="It starts high in the mountains of Colombia.">The mountains</button>
@@ -274,7 +280,7 @@
     <img class="jeep" src="assets/logo-jeep-olive.png" alt="">
     <h2 class="next">Next stop</h2>
     <!-- TODO: update each week with the real stop -->
-    <p class="where">This week's stop<br>is on Instagram</p>
+    <p class="where" id="stop-where">This week's stop<br>is on Instagram</p>
     <a class="label ig" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">@coffeerouteclt</a>
   </div>
 </section>
@@ -283,7 +289,7 @@
 <section class="events" id="events">
   <div class="pic grain"><img src="assets/photo-009.jpg" alt="Barista wearing a Taste Colombia From The Top t-shirt" loading="lazy"></div>
   <div class="txt">
-    <span class="label">Events</span>
+    <span class="label">Book the Jeep</span>
     <p class="line">Bring the Jeep to your wedding, office or market.</p>
     <!-- Booking form: sends to api/book.js, our own mini server, which emails the owner. -->
     <form class="book" id="book" novalidate>
@@ -323,7 +329,7 @@
       <a class="label" href="#about">About</a>
       <a class="label" href="#menu">Menu</a>
       <a class="label" href="#find">Find the Jeep</a>
-      <a class="label" href="#events">Events</a>
+      <a class="label" href="#events">Book the Jeep</a>
       <a class="label" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram</a>
     </nav>
     <p class="label">© <span id="yr"></span> Coffee Route · Charlotte, NC</p>
@@ -332,6 +338,15 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // ---- Next stop ----
+  // Type the stop here and it shows in two places: under the logo and on the Next Stop poster.
+  // Leave it empty ("") to point people to Instagram instead.
+  const NEXT_STOP = "";   // example: "Saturday · South End Market · 8am to 12pm"
+  if (NEXT_STOP) {
+    document.getElementById('hero-stop').textContent = NEXT_STOP;
+    document.getElementById('stop-where').textContent = NEXT_STOP;
+  }
 
   // Altitude: Nevado del Huila (5,364 m) at the top of the page, Charlotte (229 m) at the bottom.
   const TOP = 5364, BOTTOM = 229;
