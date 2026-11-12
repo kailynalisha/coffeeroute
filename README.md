@@ -50,7 +50,8 @@ Never put the Resend key in this repo. It belongs only in Vercel's settings.
 - [ ] Set up booking on Vercel and Resend (see "Setting up booking" above)
 - [ ] Switch booking emails to the owner's inbox before launch
 - [ ] Add brand fonts if licensed (Tenacious and Hundrea). Archivo is standing in for headlines.
-- [ ] Add real photos from Instagram
+- [ ] Write the About section: replace the bracketed placeholder text with her name and story
+- [ ] Add more real photos from Instagram
 
 ## Brand colors
 

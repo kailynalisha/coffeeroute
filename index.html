@@ -115,6 +115,11 @@
   .events .pic::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(22,28,0,.5) 0%,rgba(22,28,0,0) 22%,rgba(22,28,0,0) 72%,rgba(22,28,0,.6) 100%)}
   .events .txt{display:flex;flex-direction:column;justify-content:center;gap:2rem;padding:clamp(60px,9vh,110px) clamp(24px,5vw,80px)}
   .events .label{color:var(--sand)}
+  /* About: same split layout, mirrored, on olive */
+  .about{background:var(--olive)}
+  .about .pic img{object-position:60% 40%}
+  .about .txt p:not(.line){max-width:32rem;font-size:1.1rem;line-height:1.6}
+  .about .todo{opacity:.7;border-left:1px dashed rgba(255,251,230,.5);padding-left:1rem}
   .book{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem clamp(18px,3vw,36px);max-width:38rem}
   .book .full{grid-column:1/-1}
   .book label{display:block;color:var(--sand);margin-bottom:.5rem}
@@ -145,7 +150,7 @@
   footer .logo{width:min(46vw,200px)}
   footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem 2.4rem}
 
-  @media (min-width:961px){ .events .pic{min-height:0} }
+  @media (min-width:961px){ .events .pic{min-height:0} .about .pic{order:2} }
   @media (max-width:960px){
     .events{grid-template-columns:1fr}
     .events .pic{min-height:70vw}
@@ -153,7 +158,10 @@
   }
   @media (max-width:560px){
     .label{font-size:.6rem;letter-spacing:.3em}
-    .nav .l,.nav .r{gap:14px}
+    .nav .l,.nav .r{gap:12px}
+    .nav a{white-space:nowrap}
+    .nav .wide{display:none}
+    .about .pic{min-height:105vw}
     .nav .mark{width:40px}
     .alt span{display:none}
     .alt{left:auto;right:var(--pad)}
@@ -174,7 +182,7 @@
 
 <!-- Tiny fixed nav -->
 <header class="nav" id="nav">
-  <div class="l"><a class="label" href="#menu">Menu</a><a class="label" href="#find">Find the jeep</a></div>
+  <div class="l"><a class="label" href="#about">About</a><a class="label" href="#menu">Menu</a><a class="label" href="#find">Find<span class="wide"> the jeep</span></a></div>
   <a class="mark" href="#top" aria-label="Coffee Route, back to top"><img class="c" src="assets/logo-jeep-cream.png" alt=""><img class="o" src="assets/logo-jeep-olive.png" alt=""></a>
   <div class="r"><a class="label" href="#events">Events</a><a class="label" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram</a></div>
 </header>
@@ -217,6 +225,19 @@
       <button class="label" role="tab" aria-selected="false" data-line="Every bean carries its valleys and climates, warm and cold, humid and dry.">The bean</button>
       <button class="label" role="tab" aria-selected="false" data-line="And it ends in your hand, wherever the route takes us.">The cup</button>
     </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<!-- TODO: replace the placeholder text (class "todo") with her real name and story. -->
+<section class="events about" id="about">
+  <div class="pic grain"><img src="assets/photo-owner.jpg" alt="The owner of Coffee Route leaning on the back of the coffee jeep, with the espresso bar behind her" loading="lazy"></div>
+  <div class="txt">
+    <span class="label">About</span>
+    <p class="line">Meet <span class="todo-name">[Her name]</span>, the person behind the jeep.</p>
+    <p class="todo">[Placeholder. First paragraph: who she is and where she is from. Two or three sentences fit well here, for example her connection to Colombia and what coffee meant in her family.]</p>
+    <p class="todo">[Placeholder. Second paragraph: why she started Coffee Route and why a jeep. What she wants people in Charlotte to feel when they taste her coffee.]</p>
+    <p class="todo">[Placeholder. One closing line, such as where to find her or an invitation to say hi.]</p>
   </div>
 </section>
 
@@ -299,6 +320,7 @@
   <div class="in">
     <img class="logo" src="assets/logo-olive.png" alt="Coffee Route. Inspired by Colombia.">
     <nav aria-label="Footer">
+      <a class="label" href="#about">About</a>
       <a class="label" href="#menu">Menu</a>
       <a class="label" href="#find">Find the jeep</a>
       <a class="label" href="#events">Events</a>
