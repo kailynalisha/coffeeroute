@@ -262,7 +262,7 @@
   <div class="txt">
     <span class="label">Events</span>
     <p class="line">Bring the jeep to your wedding, office or market.</p>
-    <!-- Booking form: sends to the owner's inbox through Web3Forms. Set the key in the script at the bottom. -->
+    <!-- Booking form: sends to api/book.js, our own mini server, which emails the owner. -->
     <form class="book" id="book" novalidate>
       <div><label class="label" for="b-name">Name</label><input id="b-name" name="name" autocomplete="name" required></div>
       <div><label class="label" for="b-email">Email</label><input id="b-email" name="email" type="email" autocomplete="email" required></div>
@@ -337,44 +337,30 @@
   frame();
 
   // ---- Booking form ----
-  // Sends each request to the owner's inbox through Web3Forms (web3forms.com).
-  // To connect it: get a free access key for her email address there and paste it below.
-  const WEB3FORMS_KEY = "PASTE-ACCESS-KEY-HERE";
-
+  // Sends each request to our own mini server (api/book.js), which emails the owner.
   const book = document.getElementById('book'), bStatus = document.getElementById('b-status');
+  book.addEventListener('input', ev => ev.target.removeAttribute('aria-invalid'));
   book.addEventListener('submit', async e => {
     e.preventDefault();
     const say = (t, err) => { bStatus.textContent = t; bStatus.classList.toggle('err', !!err); };
-    // Check required fields
+    // Check required fields before sending
     let firstBad = null;
     book.querySelectorAll('[required]').forEach(el => {
       const bad = !el.value.trim() || (el.type === 'email' && !/^\S+@\S+\.\S+$/.test(el.value.trim()));
       el.setAttribute('aria-invalid', bad);
       if (bad && !firstBad) firstBad = el;
     });
-    book.addEventListener('input', ev => ev.target.removeAttribute('aria-invalid'));
     if (firstBad) { say('Please fill in your name, email, event date and location.', true); firstBad.focus(); return; }
-    if (WEB3FORMS_KEY.startsWith('PASTE')) { say('This form is not connected yet. Please message us on Instagram for now.', true); return; }
 
-    const d = Object.fromEntries(new FormData(book));
-    if (d.botcheck) return; // spam bots tick the hidden box
     const btn = book.querySelector('button'); btn.disabled = true; say('Sending…');
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/book', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: `Coffee Route booking request: ${d.event_type}, ${d.event_date}`,
-          from_name: 'Coffee Route website',
-          replyto: d.email,
-          Name: d.name, Email: d.email, Phone: d.phone || 'Not given',
-          'Event date': d.event_date, 'Type of event': d.event_type, Guests: d.guests,
-          Location: d.location, Message: d.message || 'None'
-        })
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(Object.fromEntries(new FormData(book)))
       });
-      const out = await res.json();
-      if (!res.ok || !out.success) throw new Error(out.message || 'Send failed');
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || !out.ok) throw new Error(out.error || 'Send failed');
       book.hidden = true; document.getElementById('book-done').hidden = false;
     } catch (err) {
       btn.disabled = false;
