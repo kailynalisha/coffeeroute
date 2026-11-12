@@ -149,7 +149,8 @@ a{color:inherit;text-decoration:none}
 
 /* ---------- 7. Footer: the ridges settle ---------- */
 footer{position:relative;background:var(--sand);color:var(--olive)}
-footer svg{display:block;width:100%;height:clamp(90px,16vw,220px);background:var(--forest)}
+footer{overflow:hidden}
+footer svg{display:block;width:120%;margin-left:-10%;height:clamp(90px,16vw,220px);background:var(--forest);overflow:visible}
 footer .in{padding:clamp(30px,5vh,60px) var(--pad) 70px;display:grid;justify-items:center;gap:2rem;text-align:center}
 footer .logo{width:min(46vw,200px)}
 footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:0 2.2rem}

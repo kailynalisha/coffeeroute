@@ -56,9 +56,9 @@
 
 <footer data-tone="light">
   <svg viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 60 C 260 0, 520 130, 820 70 S 1260 0, 1440 80 V220 H0Z" fill="#424106"/>
-    <path d="M0 120 C 300 60, 560 190, 900 120 S 1300 70, 1440 130 V220 H0Z" fill="#707C4F"/>
-    <path d="M0 175 C 280 130, 640 230, 960 170 S 1300 140, 1440 180 V220 H0Z" fill="#D4CB8C"/>
+    <path d="M0 60 C 260 0, 520 130, 820 70 S 1260 0, 1440 80 V520 H0Z" fill="#424106"/>
+    <path d="M0 120 C 300 60, 560 190, 900 120 S 1300 70, 1440 130 V520 H0Z" fill="#707C4F"/>
+    <path d="M0 175 C 280 130, 640 230, 960 170 S 1300 140, 1440 180 V1400 H0Z" fill="#D4CB8C"/>
   </svg>
   <div class="in">
     <img class="logo" src="assets/logo-olive.png" alt="Coffee Route. Inspired by Colombia.">
@@ -134,6 +134,23 @@
       say('Your request did not send. Please try again, or message us on Instagram.', true);
     }
   });
+
+  // Footer waves drift as the footer scrolls into view (off for visitors who ask for reduced motion)
+  (() => {
+    const svg = document.querySelector('footer svg'), layers = [...svg.querySelectorAll('path')];
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let queued = false;
+    const move = () => {
+      queued = false;
+      const r = svg.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const t = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;   // about .5 when entering, falling as you scroll on
+      layers.forEach((l, i) => l.setAttribute('transform', `translate(${(t * (i % 2 ? -1 : 1) * 150).toFixed(1)} ${(t * (12 + i * 16)).toFixed(1)})`));
+    };
+    addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(move); } }, {passive: true});
+    addEventListener('resize', move);
+    move();
+  })();
 </script>
 </body>
 </html>
