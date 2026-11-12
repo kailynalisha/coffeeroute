@@ -32,6 +32,7 @@
   html{scroll-behavior:smooth}
   body{font-family:var(--font);font-weight:300;color:var(--olive);background:var(--forest);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   img{max-width:100%;display:block}
+  [hidden]{display:none!important}
   a{color:inherit;text-decoration:none}
   :focus-visible{outline:1px solid currentColor;outline-offset:4px}
 
@@ -46,6 +47,9 @@
   /* ---------- Fixed chrome: tiny nav, mark, altitude ---------- */
   .nav{position:fixed;inset:0 0 auto 0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px var(--pad);color:var(--cream);transition:color .35s;pointer-events:none}
   .nav.light,.alt.light{color:var(--olive)}
+  .nav::before{content:"";position:absolute;inset:0 0 -26px 0;z-index:-1;opacity:0;transition:opacity .35s;background:linear-gradient(180deg,rgba(22,28,0,.92) 35%,rgba(22,28,0,0))}
+  .nav.light::before{background:linear-gradient(180deg,rgba(255,251,230,.95) 35%,rgba(255,251,230,0))}
+  .nav.past::before{opacity:1}
   .nav a{pointer-events:auto}
   .nav .l,.nav .r{display:flex;gap:clamp(14px,3vw,40px)}
   .nav .r{justify-content:flex-end}
@@ -111,9 +115,26 @@
   .events .pic::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(22,28,0,.5) 0%,rgba(22,28,0,0) 22%,rgba(22,28,0,0) 72%,rgba(22,28,0,.6) 100%)}
   .events .txt{display:flex;flex-direction:column;justify-content:center;gap:2rem;padding:clamp(60px,9vh,110px) clamp(24px,5vw,80px)}
   .events .label{color:var(--sand)}
-  .events .links{display:flex;gap:2.2rem;flex-wrap:wrap}
-  .events .links a{border-bottom:1px solid currentColor;padding-bottom:.5em}
-  .events .addr{font-size:.95rem;opacity:.7;user-select:all}
+  .book{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem clamp(18px,3vw,36px);max-width:38rem}
+  .book .full{grid-column:1/-1}
+  .book label{display:block;color:var(--sand);margin-bottom:.5rem}
+  .book input,.book select,.book textarea{width:100%;font:inherit;font-weight:300;font-size:1.05rem;color:var(--cream);background:transparent;border:0;border-bottom:1px solid rgba(255,251,230,.35);border-radius:0;padding:.35rem 0 .6rem;appearance:none;color-scheme:dark}
+  .book select{background-image:linear-gradient(45deg,transparent 50%,var(--sand) 50%),linear-gradient(135deg,var(--sand) 50%,transparent 50%);background-position:calc(100% - 8px) 45%,calc(100% - 2px) 45%;background-size:6px 6px;background-repeat:no-repeat;padding-right:1.4rem}
+  .book select option{color:#222;background:#fff}
+  .book textarea{min-height:5.5rem;resize:vertical}
+  .book input:focus,.book select:focus,.book textarea:focus{outline:none;border-bottom-color:var(--cream)}
+  .book [aria-invalid="true"]{border-bottom-color:#e9a27c}
+  .book .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .book .row{display:flex;align-items:center;gap:1.6rem;flex-wrap:wrap}
+  .events .book button{color:var(--forest)}
+  .book button{font:inherit;cursor:pointer;background:var(--sand);color:var(--forest);border:0;padding:1.1em 1.8em;transition:background .2s}
+  .book button:hover{background:var(--cream)}
+  .book button[disabled]{opacity:.6;cursor:default}
+  .book .msg{font-size:.98rem;min-height:1.5em}
+  .book .msg.err{color:#f0b596}
+  .events .done{display:grid;gap:1.4rem;max-width:34rem}
+  .events .alt-contact{font-size:.95rem;opacity:.75}
+  .events .alt-contact a{border-bottom:1px solid currentColor}
 
   /* ---------- 7. Footer: the ridges settle ---------- */
   footer{position:relative;background:var(--sand);color:var(--olive)}
@@ -133,10 +154,12 @@
     .nav .l,.nav .r{gap:14px}
     .nav .mark{width:40px}
     .alt span{display:none}
+    .alt{left:auto;right:var(--pad)}
     .tabs button{min-width:0;flex:1}
     .stop .where{letter-spacing:.22em}
     .ridges svg{height:38%}
     .tabs{gap:12px}
+    .book{grid-template-columns:1fr}
     .tabs button{font-size:.56rem;letter-spacing:.18em;white-space:nowrap}
   }
   @media (prefers-reduced-motion:reduce){
@@ -239,12 +262,26 @@
   <div class="txt">
     <span class="label">Events</span>
     <p class="line">Bring the jeep to your wedding, office or market.</p>
-    <div class="links">
-      <a class="label" id="mail" href="mailto:hello@coffeeroute.com?subject=Event%20request">Email us</a>
-      <a class="label" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Message on Instagram</a>
+    <!-- Booking form: sends to the owner's inbox through Web3Forms. Set the key in the script at the bottom. -->
+    <form class="book" id="book" novalidate>
+      <div><label class="label" for="b-name">Name</label><input id="b-name" name="name" autocomplete="name" required></div>
+      <div><label class="label" for="b-email">Email</label><input id="b-email" name="email" type="email" autocomplete="email" required></div>
+      <div><label class="label" for="b-phone">Phone (optional)</label><input id="b-phone" name="phone" type="tel" autocomplete="tel"></div>
+      <div><label class="label" for="b-date">Event date</label><input id="b-date" name="event_date" type="date" required></div>
+      <div><label class="label" for="b-type">Type of event</label>
+        <select id="b-type" name="event_type"><option>Wedding</option><option>Office or corporate</option><option>Market or festival</option><option>Private party</option><option>Something else</option></select></div>
+      <div><label class="label" for="b-guests">Guests</label>
+        <select id="b-guests" name="guests"><option>Under 50</option><option>50 to 100</option><option>100 to 200</option><option>More than 200</option></select></div>
+      <div class="full"><label class="label" for="b-where">Location</label><input id="b-where" name="location" placeholder="Venue or neighborhood" required></div>
+      <div class="full"><label class="label" for="b-msg">Anything else?</label><textarea id="b-msg" name="message" placeholder="Timing, drinks you have in mind, questions"></textarea></div>
+      <input class="hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="full row"><button class="label" type="submit">Send request</button><p class="msg" id="b-status" role="status" aria-live="polite"></p></div>
+    </form>
+    <div class="done" id="book-done" hidden>
+      <p class="line">Thank you. Your request is on its way.</p>
+      <p>We'll reply by email, usually within a couple of days.</p>
     </div>
-    <!-- TODO: replace with the real inbox (also in the mailto link above) -->
-    <p class="addr">hello@coffeeroute.com</p>
+    <p class="alt-contact">Prefer to chat? <a href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Message us on Instagram</a>.</p>
   </div>
 </section>
 
@@ -298,6 +335,52 @@
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, {passive:true});
   addEventListener('resize', frame);
   frame();
+
+  // ---- Booking form ----
+  // Sends each request to the owner's inbox through Web3Forms (web3forms.com).
+  // To connect it: get a free access key for her email address there and paste it below.
+  const WEB3FORMS_KEY = "PASTE-ACCESS-KEY-HERE";
+
+  const book = document.getElementById('book'), bStatus = document.getElementById('b-status');
+  book.addEventListener('submit', async e => {
+    e.preventDefault();
+    const say = (t, err) => { bStatus.textContent = t; bStatus.classList.toggle('err', !!err); };
+    // Check required fields
+    let firstBad = null;
+    book.querySelectorAll('[required]').forEach(el => {
+      const bad = !el.value.trim() || (el.type === 'email' && !/^\S+@\S+\.\S+$/.test(el.value.trim()));
+      el.setAttribute('aria-invalid', bad);
+      if (bad && !firstBad) firstBad = el;
+    });
+    book.addEventListener('input', ev => ev.target.removeAttribute('aria-invalid'));
+    if (firstBad) { say('Please fill in your name, email, event date and location.', true); firstBad.focus(); return; }
+    if (WEB3FORMS_KEY.startsWith('PASTE')) { say('This form is not connected yet. Please message us on Instagram for now.', true); return; }
+
+    const d = Object.fromEntries(new FormData(book));
+    if (d.botcheck) return; // spam bots tick the hidden box
+    const btn = book.querySelector('button'); btn.disabled = true; say('Sending…');
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Coffee Route booking request: ${d.event_type}, ${d.event_date}`,
+          from_name: 'Coffee Route website',
+          replyto: d.email,
+          Name: d.name, Email: d.email, Phone: d.phone || 'Not given',
+          'Event date': d.event_date, 'Type of event': d.event_type, Guests: d.guests,
+          Location: d.location, Message: d.message || 'None'
+        })
+      });
+      const out = await res.json();
+      if (!res.ok || !out.success) throw new Error(out.message || 'Send failed');
+      book.hidden = true; document.getElementById('book-done').hidden = false;
+    } catch (err) {
+      btn.disabled = false;
+      say('Your request did not send. Please try again, or message us on Instagram.', true);
+    }
+  });
 
   // Story tabs
   const tabs = [...document.querySelectorAll('.tabs button')];

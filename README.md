@@ -16,7 +16,7 @@ Open `index.html` in a browser to preview it. No build step is needed.
 
 - [ ] Confirm menu items and prices (current ones come from the A-frame sign mockup)
 - [ ] Add real weekly stops and hours ("Find the Jeep" section)
-- [ ] Replace the placeholder booking email (`BOOKING_EMAIL` near the bottom of `index.html`)
+- [ ] Connect the booking form: get a free access key at web3forms.com using the owner's email, then paste it into `WEB3FORMS_KEY` near the bottom of `index.html`
 - [ ] Add brand fonts if licensed (Tenacious and Hundrea). Archivo is standing in for headlines.
 - [ ] Add real photos from Instagram
 - [ ] Turn on hosting (GitHub Pages or Netlify)
