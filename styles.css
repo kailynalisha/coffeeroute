@@ -215,5 +215,5 @@ footer nav a{padding:1em 0}
 .bookpage .intro{max-width:32rem;font-size:1.1rem;line-height:1.6;opacity:.9}
 .nav .back{display:inline-flex;align-items:center;gap:.7em}
 @media (max-width:960px){ .bookpage .events .pic{min-height:56vw;max-height:60vh} .bookpage .events .txt{padding-top:clamp(40px,7vh,70px)} }
-.bookpage .events .pic img{object-position:62% 40%}
+.bookpage .events .pic img{object-position:58% 50%}
 @media (max-width:960px){ .bookpage .events .pic{min-height:80vw} }

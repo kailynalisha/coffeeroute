@@ -7,7 +7,7 @@
 <meta name="description" content="Book the Coffee Route Jeep for your wedding, office, market or party in and around Charlotte, NC.">
 <meta property="og:title" content="Book the Coffee Route Jeep">
 <meta property="og:description" content="Colombian coffee served from a Jeep at your event in Charlotte, NC.">
-<meta property="og:image" content="assets/photo-owner.jpg">
+<meta property="og:image" content="assets/photo-005.jpg">
 <meta name="theme-color" content="#263000">
 <link rel="icon" type="image/png" href="assets/logo-jeep-olive.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,8 @@
 
 <main>
 <section class="events" id="events">
-  <div class="pic grain"><img src="assets/photo-owner.jpg" alt="Gabriela at the back of the Coffee Route Jeep, with the espresso bar behind her"></div>
+  <!-- TODO: placeholder photo. Replace with a real photo of the Jeep at an event. -->
+  <div class="pic grain"><img src="assets/photo-005.jpg" alt="Barista pouring steamed milk into a green Coffee Route cup"></div>
   <div class="txt">
     <span class="label">Events and catering</span>
     <h1 class="line">Book the Jeep</h1>
@@ -74,6 +75,9 @@
 </footer>
 
 <script>
+  // Always open this page at the top (some browsers and previews keep the previous page's scroll position)
+  if (!location.hash) { try { history.scrollRestoration = 'manual'; } catch (e) {} scrollTo(0, 0); addEventListener('pageshow', () => scrollTo(0, 0)); }
+
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   // ---- Booking form ----
