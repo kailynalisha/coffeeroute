@@ -49,9 +49,9 @@
     <span class="label">Taste Colombia from the top</span>
     <p class="line" id="story-line" aria-live="polite">It starts high in the Andes.</p>
     <div class="tabs" role="tablist" aria-label="Our story">
-      <button class="label" role="tab" aria-selected="true"  data-line="It starts high in the Andes.">The mountains</button>
-      <button class="label" role="tab" aria-selected="false" data-line="Every bean carries its valleys and climates, warm and cold, humid and dry.">The bean</button>
-      <button class="label" role="tab" aria-selected="false" data-line="And it ends in your hand, wherever the route takes us.">The cup</button>
+      <button class="label" role="tab" aria-selected="true"  data-line="It starts high in the Andes."><span class="wide">The </span>mountains</button>
+      <button class="label" role="tab" aria-selected="false" data-line="Every bean carries its valleys and climates, warm and cold, humid and dry."><span class="wide">The </span>bean</button>
+      <button class="label" role="tab" aria-selected="false" data-line="And it ends in your hand, wherever the route takes us."><span class="wide">The </span>cup</button>
     </div>
   </div>
 </section>
@@ -161,6 +161,9 @@
     nav.classList.toggle('past', scrollY > innerHeight * .6);
     nav.classList.toggle('light', toneAt(34));
     altEl.classList.toggle('light', toneAt(innerHeight - 28));
+    // On phones the altitude chip steps aside wherever it would sit on top of text
+    const overText = [...document.querySelectorAll('.about .txt, .menu, #events .txt, footer .in')].some(el => { const r = el.getBoundingClientRect(); return r.top < innerHeight - 8 && r.bottom > innerHeight - 60; });
+    altEl.classList.toggle('away', overText);
     if (!still && scrollY < innerHeight * 1.2)
       ridges.forEach(r => r.style.transform = `translateY(${scrollY * parseFloat(r.dataset.speed)}px)`);
   }
