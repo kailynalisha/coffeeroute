@@ -12,6 +12,25 @@
 // Optional:
 //   BOOKING_FROM_EMAIL  the "from" address. Leave it unset until you own a domain.
 
+const dns = require('dns').promises;
+
+// What a properly written email address looks like: name@domain.ending
+const EMAIL_SHAPE = /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/;
+
+// Ask the internet whether this domain has a mail server (an "MX record").
+// "gmail.com" does. "asdf.asdf" does not, so nobody could ever reply to it.
+// If the lookup itself is slow or broken we let the booking through, so a
+// network hiccup never blocks a real customer.
+async function domainTakesEmail(domain) {
+  try {
+    const slow = new Promise((_, reject) => setTimeout(() => reject({ code: 'TIMEOUT' }), 2500));
+    const servers = await Promise.race([dns.resolveMx(domain), slow]);
+    return servers.some(s => s.exchange && s.exchange !== '.');
+  } catch (err) {
+    return !['ENOTFOUND', 'ENODATA'].includes(err.code);
+  }
+}
+
 const EVENT_TYPES = ['Wedding', 'Office or corporate', 'Market or festival', 'Private party', 'Something else'];
 const GUEST_SIZES = ['Under 50', '50 to 100', '100 to 200', 'More than 200'];
 
@@ -57,13 +76,20 @@ module.exports = async function handler(req, res) {
   // 2. Check them.
   const problems = [];
   if (!booking.name) problems.push('name');
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(booking.email)) problems.push('email');
+  const emailLooksRight = EMAIL_SHAPE.test(booking.email) && !booking.email.includes('..');
+  if (!emailLooksRight) problems.push('email');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(booking.date)) problems.push('event date');
   if (!booking.location) problems.push('location');
   if (!EVENT_TYPES.includes(booking.type)) booking.type = 'Something else';
   if (!GUEST_SIZES.includes(booking.guests)) booking.guests = 'Not given';
   if (problems.length) {
-    return res.status(400).json({ ok: false, error: 'Please check: ' + problems.join(', ') + '.' });
+    return res.status(400).json({ ok: false, field: problems[0], error: 'Please check: ' + problems.join(', ') + '.' });
+  }
+
+  // The address is written correctly. Now check its domain can actually receive email.
+  const domain = booking.email.split('@')[1].toLowerCase();
+  if (!(await domainTakesEmail(domain))) {
+    return res.status(400).json({ ok: false, field: 'email', error: `We can't send email to "${domain}". Please check your email address.` });
   }
 
   // The settings must be present, otherwise we cannot send anything.

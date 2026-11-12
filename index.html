@@ -123,7 +123,7 @@
   .book select option{color:#222;background:#fff}
   .book textarea{min-height:5.5rem;resize:vertical}
   .book input:focus,.book select:focus,.book textarea:focus{outline:none;border-bottom-color:var(--cream)}
-  .book [aria-invalid="true"]{border-bottom-color:#e9a27c}
+  .book [aria-invalid="true"],.book [aria-invalid="true"]:focus{border-bottom-color:#f0a070;border-bottom-width:2px}
   .book .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
   .book .row{display:flex;align-items:center;gap:1.6rem;flex-wrap:wrap}
   .events .book button{color:var(--forest)}
@@ -340,17 +340,32 @@
   // Sends each request to our own mini server (api/book.js), which emails the owner.
   const book = document.getElementById('book'), bStatus = document.getElementById('b-status');
   book.addEventListener('input', ev => ev.target.removeAttribute('aria-invalid'));
+  // A properly written email: name@domain.ending, no spaces, no double dots
+  const emailOk = v => /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/.test(v.trim()) && !v.includes('..');
+  // Check the email as soon as the visitor leaves the field
+  const emailEl = document.getElementById('b-email');
+  emailEl.addEventListener('blur', () => {
+    if (emailEl.value.trim() && !emailOk(emailEl.value)) {
+      emailEl.setAttribute('aria-invalid', true);
+      bStatus.textContent = 'That email address doesn\u2019t look right. It should look like name@example.com.';
+      bStatus.classList.add('err');
+    }
+  });
   book.addEventListener('submit', async e => {
     e.preventDefault();
     const say = (t, err) => { bStatus.textContent = t; bStatus.classList.toggle('err', !!err); };
     // Check required fields before sending
     let firstBad = null;
     book.querySelectorAll('[required]').forEach(el => {
-      const bad = !el.value.trim() || (el.type === 'email' && !/^\S+@\S+\.\S+$/.test(el.value.trim()));
+      const bad = !el.value.trim() || (el.type === 'email' && !emailOk(el.value));
       el.setAttribute('aria-invalid', bad);
       if (bad && !firstBad) firstBad = el;
     });
-    if (firstBad) { say('Please fill in your name, email, event date and location.', true); firstBad.focus(); return; }
+    if (firstBad) {
+      const emailTyped = firstBad.type === 'email' && firstBad.value.trim();
+      say(emailTyped ? 'That email address doesn\u2019t look right. It should look like name@example.com.' : 'Please fill in your name, email, event date and location.', true);
+      firstBad.focus(); return;
+    }
 
     const btn = book.querySelector('button'); btn.disabled = true; say('Sending…');
     try {
@@ -360,6 +375,11 @@
         body: JSON.stringify(Object.fromEntries(new FormData(book)))
       });
       const out = await res.json().catch(() => ({}));
+      if (res.status === 400 && out.error) {       // the server found a problem with what was typed
+        btn.disabled = false; say(out.error, true);
+        if (out.field === 'email') { emailEl.setAttribute('aria-invalid', true); emailEl.focus(); }
+        return;
+      }
       if (!res.ok || !out.ok) throw new Error(out.error || 'Send failed');
       book.hidden = true; document.getElementById('book-done').hidden = false;
     } catch (err) {
