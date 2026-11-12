@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book the Jeep — Coffee Route</title>
+<meta name="description" content="Book the Coffee Route Jeep for your wedding, office, market or party in and around Charlotte, NC.">
+<meta property="og:title" content="Book the Coffee Route Jeep">
+<meta property="og:description" content="Colombian coffee served from a Jeep at your event in Charlotte, NC.">
+<meta property="og:image" content="assets/photo-owner.jpg">
+<meta name="theme-color" content="#263000">
+<link rel="icon" type="image/png" href="assets/logo-jeep-olive.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="bookpage">
+
+<header class="nav past" id="nav">
+  <div class="l"><a class="label back" href="index.html"><span aria-hidden="true">←</span> Home</a></div>
+  <a class="mark" href="index.html" aria-label="Coffee Route home"><img class="c" src="assets/logo-jeep-cream.png" alt=""><img class="o" src="assets/logo-jeep-olive.png" alt=""></a>
+  <div class="r"><a class="label" href="index.html#menu">Menu</a><a class="label ig-top" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram</a></div>
+</header>
+
+<main>
+<section class="events" id="events">
+  <div class="pic grain"><img src="assets/photo-009.jpg" alt="Barista wearing a Taste Colombia From The Top t-shirt"></div>
+  <div class="txt">
+    <span class="label">Events and catering</span>
+    <h1 class="line">Book the Jeep</h1>
+    <p class="intro">Weddings, office mornings, markets and parties. Tell us about your event and we'll get back to you by email.</p>
+    <!-- Booking form: sends to api/book.js, our own mini server, which emails the owner. -->
+    <form class="book" id="book" novalidate>
+      <div><label class="label" for="b-name">Name</label><input aria-describedby="b-name-err" id="b-name" name="name" autocomplete="name" required><p class="ferr" id="b-name-err" role="alert"></p></div>
+      <div><label class="label" for="b-email">Email</label><input aria-describedby="b-email-err" id="b-email" name="email" type="email" autocomplete="email" required><p class="ferr" id="b-email-err" role="alert"></p></div>
+      <div><label class="label" for="b-phone">Phone (optional)</label><input id="b-phone" name="phone" type="tel" autocomplete="tel"></div>
+      <div><label class="label" for="b-date">Event date</label><input aria-describedby="b-date-err" id="b-date" name="event_date" type="date" required><p class="ferr" id="b-date-err" role="alert"></p></div>
+      <div><label class="label" for="b-type">Type of event</label>
+        <select id="b-type" name="event_type"><option>Wedding</option><option>Office or corporate</option><option>Market or festival</option><option>Private party</option><option>Something else</option></select></div>
+      <div><label class="label" for="b-guests">Guests</label>
+        <select id="b-guests" name="guests"><option>Under 50</option><option>50 to 100</option><option>100 to 200</option><option>More than 200</option></select></div>
+      <div class="full"><label class="label" for="b-where">Location</label><input aria-describedby="b-where-err" id="b-where" name="location" placeholder="Venue or neighborhood" required><p class="ferr" id="b-where-err" role="alert"></p></div>
+      <div class="full"><label class="label" for="b-msg">Anything else?</label><textarea id="b-msg" name="message" placeholder="Timing, drinks you have in mind, questions"></textarea></div>
+      <input class="hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="full row"><button class="label" type="submit">Send request</button><p class="msg" id="b-status" role="status" aria-live="polite"></p></div>
+    </form>
+    <div class="done" id="book-done" hidden>
+      <p class="line">Thank you. Your request is on its way.</p>
+      <p>We'll reply by email, usually within a couple of days.</p>
+    </div>
+    <p class="alt-contact">Prefer to chat? <a href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Message us on Instagram</a>.</p>
+  </div>
+</section>
+</main>
+
+<footer data-tone="light">
+  <svg viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 60 C 260 0, 520 130, 820 70 S 1260 0, 1440 80 V220 H0Z" fill="#424106"/>
+    <path d="M0 120 C 300 60, 560 190, 900 120 S 1300 70, 1440 130 V220 H0Z" fill="#707C4F"/>
+    <path d="M0 175 C 280 130, 640 230, 960 170 S 1300 140, 1440 180 V220 H0Z" fill="#D4CB8C"/>
+  </svg>
+  <div class="in">
+    <img class="logo" src="assets/logo-olive.png" alt="Coffee Route. Inspired by Colombia.">
+    <nav aria-label="Footer">
+      <a class="label" href="index.html#about">About</a>
+      <a class="label" href="index.html#menu">Menu</a>
+      <a class="label" href="index.html#find">Find the Jeep</a>
+      <a class="label" href="book.html">Book the Jeep</a>
+      <a class="label" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram</a>
+    </nav>
+    <p class="label">© <span id="yr"></span> Coffee Route · Charlotte, NC</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // ---- Booking form ----
+  // Sends each request to our own mini server (api/book.js), which emails the owner.
+  const book = document.getElementById('book'), bStatus = document.getElementById('b-status');
+  const say = (t, err) => { bStatus.textContent = t; bStatus.classList.toggle('err', !!err); };
+
+  // A properly written email: name@domain.ending, no spaces, no double dots
+  const emailOk = v => /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/.test(v) && !v.includes('..');
+  const today = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
+
+  // One rule per required field. Each returns the message to show, or '' if the field is fine.
+  const rules = {
+    'b-name':  v => v ? '' : 'Please enter your name.',
+    'b-email': v => !v ? 'Please enter your email address.'
+                 : !v.includes('@') ? 'This email is missing an @. It should look like name@example.com.'
+                 : emailOk(v) ? '' : 'This doesn’t look like a full email address. It should look like name@example.com.',
+    'b-date':  v => !v ? 'Please choose the date of your event.'
+                 : v < today() ? 'That date has already passed. Please choose a future date.' : '',
+    'b-where': v => v ? '' : 'Please tell us where the event will be.'
+  };
+  const showError = (el, msg) => {
+    document.getElementById(el.id + '-err').textContent = msg;
+    if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+  };
+  const check = el => { const msg = rules[el.id](el.value.trim()); showError(el, msg); return !msg; };
+
+  Object.keys(rules).forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('blur', () => check(el));                       // leaving a field: say what is wrong
+    el.addEventListener('input', () => { if (el.hasAttribute('aria-invalid')) check(el); }); // fixing it: clear the message
+  });
+
+  book.addEventListener('submit', async e => {
+    e.preventDefault();
+    const bad = Object.keys(rules).map(id => document.getElementById(id)).filter(el => !check(el));
+    if (bad.length) { say('Please fix the highlighted ' + (bad.length > 1 ? 'fields' : 'field') + ' above.', true); bad[0].focus(); return; }
+
+    const btn = book.querySelector('button'); btn.disabled = true; say('Sending…');
+    try {
+      const res = await fetch('/api/book', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(Object.fromEntries(new FormData(book)))
+      });
+      const out = await res.json().catch(() => ({}));
+      if (res.status === 400 && out.error) {       // the server found a problem with what was typed
+        btn.disabled = false;
+        const emailEl = document.getElementById('b-email');
+        if (out.field === 'email') { showError(emailEl, out.error); emailEl.focus(); say('Please fix the highlighted field above.', true); }
+        else say(out.error, true);
+        return;
+      }
+      if (!res.ok || !out.ok) throw new Error(out.error || 'Send failed');
+      book.hidden = true; document.getElementById('book-done').hidden = false;
+    } catch (err) {
+      btn.disabled = false;
+      say('Your request did not send. Please try again, or message us on Instagram.', true);
+    }
+  });
+</script>
+</body>
+</html>

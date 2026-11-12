@@ -7,15 +7,18 @@ Website for **Coffee Route**, a mobile Colombian coffee Jeep in Charlotte, NC.
 
 ## Structure
 
-- `index.html`: the whole site (HTML, CSS and JS in one file). The page is a "descent": full-screen scenes, the logo as the star, and an altitude reading that falls from Nevado del Huila to Charlotte as you scroll.
-- `assets/`: logos (transparent PNGs in cream and olive) and photos from the brand manual
+- `index.html`: the home page. It is a "descent": full-screen scenes, the logo as the star, and an altitude reading that falls from Nevado del Huila to Charlotte as you scroll.
+- `book.html`: the booking page with the form. On Vercel its address is `/book`, which is a good link for an Instagram bio or a QR code.
+- `styles.css`: the styles shared by both pages
+- `assets/`: logos (transparent PNGs in cream and olive) and photos
 - `api/book.js`: the booking "mini server". Vercel runs it when the form is submitted, and it emails the request to the owner through Resend.
+- `vercel.json`: tells Vercel to use clean addresses (`/book` instead of `/book.html`)
 
 Open `index.html` in a browser to preview the design. The booking form only works on Vercel, because it needs `api/book.js` to be running.
 
 ## How booking works
 
-1. A visitor fills in the form in the Events section and presses "Send request".
+1. A visitor fills in the form on the booking page (`book.html`) and presses "Send request".
 2. The page sends the details to `/api/book`.
 3. `api/book.js` checks the details, then asks Resend to email them to the owner.
 4. The visitor sees a thank-you message. Replying to the email goes straight to the visitor.
