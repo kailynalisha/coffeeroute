@@ -44,7 +44,7 @@ a{color:inherit;text-decoration:none}
 .nav .r{justify-content:flex-end}
 .nav .mark{width:54px;opacity:0;transition:opacity .4s}
 .nav.past .mark{opacity:1}
-.nav .mark{position:relative}
+.nav .mark{position:relative;padding:0}
 .nav .mark img{transition:opacity .35s}
 .nav .mark img.o{position:absolute;inset:0;opacity:0}
 .nav.light .mark img.c{opacity:0}
@@ -210,7 +210,7 @@ footer nav a{padding:1em 0}
 
 /* ---------- Booking page ---------- */
 .bookpage .events{min-height:100svh}
-.bookpage .events .txt{padding-top:clamp(120px,16vh,170px)}
+.bookpage .events .txt{padding-top:clamp(160px,19vh,200px)}
 .bookpage h1.line{font-weight:200}
 .bookpage .intro{max-width:32rem;font-size:1.1rem;line-height:1.6;opacity:.9}
 .nav .back{display:inline-flex;align-items:center;gap:.7em}
