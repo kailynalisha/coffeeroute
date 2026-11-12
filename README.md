@@ -1,6 +1,6 @@
 # Coffee Route
 
-Website for **Coffee Route**, a mobile Colombian coffee jeep in Charlotte, NC.
+Website for **Coffee Route**, a mobile Colombian coffee Jeep in Charlotte, NC.
 *Taste Colombia from the top. Inspired by Colombia.*
 
 > 🚧 Work in progress, not launched yet.
