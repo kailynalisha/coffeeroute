@@ -7,7 +7,7 @@ Website for **Coffee Route**, a mobile Colombian coffee jeep in Charlotte, NC.
 
 ## Structure
 
-- `index.html`: the whole site (HTML, CSS and JS in one file)
+- `index.html`: the whole site (HTML, CSS and JS in one file). The page is a "descent": full-screen scenes, the logo as the star, and an altitude reading that falls from Nevado del Huila to Charlotte as you scroll.
 - `assets/`: logos (transparent PNGs in cream and olive) and photos from the brand manual
 
 Open `index.html` in a browser to preview it. No build step is needed.

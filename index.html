@@ -4,480 +4,310 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Coffee Route — Taste Colombia From The Top</title>
-<meta name="description" content="Coffee Route is a mobile Colombian coffee jeep in Charlotte, NC. Specialty espresso inspired by the mountains of Colombia, served from the road.">
+<meta name="description" content="Coffee Route is a mobile Colombian coffee jeep in Charlotte, NC. Taste Colombia from the top.">
 <meta property="og:title" content="Coffee Route — Taste Colombia From The Top">
-<meta property="og:description" content="A mobile Colombian coffee jeep rolling around Charlotte, NC.">
+<meta property="og:description" content="A Colombian coffee jeep on the road in Charlotte, NC.">
 <meta property="og:image" content="assets/photo-007.jpg">
 <meta name="theme-color" content="#263000">
 <link rel="icon" type="image/png" href="assets/logo-jeep-olive.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  /* ---------- Brand tokens (from Manual de Marca, p.14) ---------- */
+  /* Layout idea: a descent. Full-bleed scenes stacked like mountain ridges,
+     the logo as the star, very few words, an altitude reading that falls as you scroll. */
   :root{
-    --forest:#263000;   /* primary dark */
-    --olive:#424106;    /* text / dark accents */
+    /* Brand colors, Manual de Marca p.14 */
+    --forest:#263000;
+    --olive:#424106;
     --sage:#707C4F;
     --sand:#D4CB8C;
     --cream:#FFFBE6;
     --bean:#6D4930;
-    --display:"Archivo", "Arial Black", sans-serif; /* stand-in for Tenacious */
-    --body:"Titillium Web", system-ui, sans-serif;
-    --gutter:clamp(16px, 5vw, 72px);
-    --max:1240px;
+    --night:#161c00;            /* forest, deepened for the hero sky */
+    --font:"Titillium Web", "Trebuchet MS", system-ui, sans-serif;
+    --pad:clamp(16px, 3vw, 40px);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:var(--body);font-weight:300;color:var(--olive);background:var(--cream);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{font-family:var(--font);font-weight:300;color:var(--olive);background:var(--forest);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   img{max-width:100%;display:block}
-  a{color:inherit}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
-  .caps{font-family:var(--display);font-stretch:125%;font-weight:800;text-transform:uppercase;letter-spacing:.04em;line-height:.98}
-  .tracked{font-family:var(--display);font-stretch:125%;font-weight:700;text-transform:uppercase;letter-spacing:.38em;font-size:.72rem}
-  .eyebrow{font-family:var(--body);font-weight:600;text-transform:uppercase;letter-spacing:.3em;font-size:.75rem}
-  h2.caps{font-size:clamp(2rem,5.2vw,4rem)}
-  .btn{display:inline-flex;align-items:center;gap:.7em;padding:1em 1.6em;border:1.5px solid currentColor;text-decoration:none;font-family:var(--display);font-stretch:125%;font-weight:700;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;transition:background .2s,color .2s}
-  .btn.solid{background:var(--sand);color:var(--forest);border-color:var(--sand)}
-  .btn.solid:hover{background:var(--cream);border-color:var(--cream)}
-  .btn.ghost:hover{background:var(--cream);color:var(--forest)}
-  .btn .arrow{transition:transform .2s}
-  .btn:hover .arrow{transform:translateX(4px)}
-  :focus-visible{outline:2px solid var(--sand);outline-offset:3px}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:1px solid currentColor;outline-offset:4px}
 
-  /* ---------- Film grain (brand photo style: warm, not "HD") ---------- */
-  .grain{position:relative;isolation:isolate}
-  .grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;mix-blend-mode:overlay;z-index:2;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  /* The one small-text style used everywhere (like the tracked caps on the brand's t-shirt and cards) */
+  .label{font-weight:700;font-size:.68rem;letter-spacing:.42em;text-transform:uppercase}
+  .line{font-weight:200;font-size:clamp(1.5rem,3.2vw,2.9rem);line-height:1.18;letter-spacing:.005em;text-wrap:balance}
 
-  /* ---------- Nav ---------- */
-  .nav{position:fixed;inset:0 0 auto 0;z-index:50;color:var(--cream);transition:background .3s, box-shadow .3s}
-  .nav.scrolled{background:rgba(38,48,0,.96);box-shadow:0 1px 0 rgba(255,251,230,.08)}
-  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
-  .nav .brand{display:flex;align-items:center;gap:.8rem;text-decoration:none}
-  .nav .brand img{height:46px;width:auto}
-  .nav .brand span{font-size:.68rem}
-  .nav ul{list-style:none;display:flex;gap:2.2rem;align-items:center}
-  .nav ul a{text-decoration:none;font-weight:600;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;opacity:.85}
-  .nav ul a:hover{opacity:1}
-  .nav .btn{padding:.75em 1.2em;font-size:.7rem}
-  .menu-toggle{display:none;background:none;border:0;color:inherit;width:44px;height:44px;cursor:pointer}
-  .menu-toggle span{display:block;height:2px;background:currentColor;margin:6px 10px;transition:transform .2s,opacity .2s}
+  /* Warm film grain over photos (brand photo style: movement, not "HD") */
+  .grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;mix-blend-mode:overlay;z-index:3;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-  /* ---------- Hero ---------- */
-  .hero{background:var(--forest);color:var(--cream);min-height:100svh;display:grid;grid-template-columns:1.05fr .95fr;position:relative;overflow:hidden}
-  .hero-copy{padding:130px var(--gutter) 70px;display:flex;flex-direction:column;justify-content:center;gap:2rem;position:relative;z-index:3;max-width:720px;justify-self:end;width:100%}
-  .route-line{display:flex;align-items:center;gap:.8rem;font-weight:600;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sand)}
-  .route-line i{flex:0 1 110px;height:1px;background:var(--sand);position:relative}
-  .route-line i::before,.route-line i::after{content:"";position:absolute;top:-3px;width:7px;height:7px;border-radius:50%;background:var(--sand)}
-  .route-line i::before{left:0}.route-line i::after{right:0}
-  .hero h1{font-size:clamp(2.6rem,6.4vw,5.6rem);color:var(--cream)}
-  .hero h1 em{font-style:normal;color:var(--sand)}
-  .hero p.lede{font-size:clamp(1.05rem,1.4vw,1.3rem);max-width:30em;color:rgba(255,251,230,.82)}
-  .hero .ctas{display:flex;flex-wrap:wrap;gap:1rem}
-  .hero-media{position:relative;min-height:420px}
-  .hero-media img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:55% 50%;filter:saturate(.9) contrast(1.02)}
-  .hero-media::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--forest) 0%,rgba(38,48,0,0) 35%);z-index:1}
-  .hero-badge{position:absolute;right:clamp(16px,4vw,56px);bottom:clamp(24px,6vh,64px);width:clamp(130px,14vw,190px);z-index:3;animation:float 6s ease-in-out infinite}
-  @keyframes float{50%{transform:translateY(-8px) rotate(-2deg)}}
+  /* ---------- Fixed chrome: tiny nav, mark, altitude ---------- */
+  .nav{position:fixed;inset:0 0 auto 0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px var(--pad);color:var(--cream);transition:color .35s;pointer-events:none}
+  .nav.light,.alt.light{color:var(--olive)}
+  .nav a{pointer-events:auto}
+  .nav .l,.nav .r{display:flex;gap:clamp(14px,3vw,40px)}
+  .nav .r{justify-content:flex-end}
+  .nav .mark{width:54px;opacity:0;transition:opacity .4s}
+  .nav.past .mark{opacity:1}
+  .nav .mark{position:relative}
+  .nav .mark img{transition:opacity .35s}
+  .nav .mark img.o{position:absolute;inset:0;opacity:0}
+  .nav.light .mark img.c{opacity:0}
+  .nav.light .mark img.o{opacity:1}
+  .alt{position:fixed;left:var(--pad);bottom:18px;z-index:40;color:var(--cream);transition:color .35s;pointer-events:none;display:flex;gap:1.2em;align-items:baseline}
+  .alt b{font-variant-numeric:tabular-nums;font-weight:700}
+  .alt span{font-weight:400;opacity:.75}
 
-  /* ---------- Marquee ---------- */
-  .marquee{background:var(--sand);color:var(--forest);overflow:hidden;white-space:nowrap;border-block:1px solid var(--olive)}
-  .marquee .track{display:inline-flex;gap:2.5rem;padding:1.05rem 0;animation:scroll 38s linear infinite}
-  .marquee span{font-size:.85rem;letter-spacing:.32em;display:inline-flex;align-items:center;gap:2.5rem}
-  .marquee img{height:14px;width:auto;opacity:.9}
-  @keyframes scroll{to{transform:translateX(-50%)}}
+  /* ---------- 1. Hero: the logo above the ridges ---------- */
+  .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;color:var(--cream);
+    background:radial-gradient(120% 80% at 50% 0%, #37440a 0%, var(--forest) 45%, var(--night) 100%)}
+  .hero .logo{position:absolute;left:50%;top:37%;width:min(60vw,44svh,400px);transform:translate(-50%,-50%);z-index:2}
+  .hero .tag{position:absolute;left:0;right:0;bottom:7.5vh;text-align:center;z-index:6;color:var(--sand)}
+  .ridges{position:absolute;inset:0;z-index:4;pointer-events:none}
+  .ridges svg{position:absolute;left:0;bottom:-2px;width:100%;height:44%;will-change:transform}
 
-  /* ---------- Story ---------- */
-  .story{padding:clamp(80px,12vw,150px) 0}
-  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
-  .story h2{margin:1rem 0 1.6rem}
-  .story p{font-size:1.15rem;margin-bottom:1.1rem;max-width:34em}
-  .story p strong{font-weight:700}
-  .story-photo{aspect-ratio:4/5;overflow:hidden;position:relative}
-  .story-photo img{width:100%;height:100%;object-fit:cover;object-position:52% 50%;transform:scale(1.5);transform-origin:52% 55%}
-  .story-photo .tag{position:absolute;left:0;bottom:0;background:var(--cream);padding:1rem 1.3rem;z-index:3}
-  .values{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--olive);border:1px solid var(--olive);margin-top:clamp(64px,9vw,110px)}
-  .value{background:var(--cream);padding:2.2rem 1.8rem}
-  .value .n{font-family:var(--display);font-stretch:125%;font-weight:800;color:var(--sage);font-size:.85rem;letter-spacing:.2em}
-  .value h3{font-family:var(--body);font-weight:700;font-size:1.45rem;margin:.6rem 0 .5rem;line-height:1.2}
-  .value p{font-size:1rem}
+  /* ---------- 2. Full-bleed photo scenes ---------- */
+  .scene{position:relative;min-height:100svh;overflow:hidden;color:var(--cream);display:flex;align-items:flex-end;background:var(--night)}
+  .scene > img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .scene::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(22,28,0,.55) 0%,rgba(22,28,0,0) 30%,rgba(22,28,0,0) 50%,rgba(22,28,0,.8) 100%)}
+  .scene .cap{position:relative;z-index:5;padding:0 var(--pad) clamp(70px,11vh,120px);max-width:60rem}
+  .scene .cap .label{display:block;margin-bottom:1.2rem;color:var(--sand)}
 
-  /* ---------- Menu ---------- */
-  .menu{background:var(--olive);color:var(--cream);padding:clamp(80px,11vw,140px) 0;position:relative;overflow:hidden}
-  .menu-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:3.5rem}
-  .menu-head p{max-width:26em;color:rgba(255,251,230,.75)}
-  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(40px,6vw,96px)}
-  .menu h3{color:var(--sand);margin:0 0 1rem;font-size:.75rem}
-  .menu ul{list-style:none;margin-bottom:2.6rem}
-  .menu li{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:.8rem;padding:.85rem 0;border-bottom:1px dashed rgba(212,203,140,.3)}
-  .menu li b{font-family:var(--display);font-stretch:112%;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.98rem}
-  .menu li small{grid-column:1/-1;font-size:.92rem;color:rgba(255,251,230,.6);margin-top:-.4rem}
-  .menu li .dots{border-bottom:1px dotted rgba(255,251,230,.0)}
-  .menu li .p{font-family:var(--display);font-stretch:100%;font-weight:600;color:var(--sand)}
-  .menu .note{font-size:.9rem;color:rgba(255,251,230,.6)}
-  .menu .watermark{position:absolute;right:-60px;bottom:-60px;width:380px;opacity:.06;pointer-events:none}
+  /* ---------- 3. Story: three scenes, one sentence each ---------- */
+  .story .slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+  .story .slide.on{opacity:1}
+  .story .slide img{width:100%;height:100%;object-fit:cover}
+  .story .slide.map{background:var(--forest)}
+  .story .slide.map img{object-fit:cover;object-position:28% 38%;transform:scale(1.9);transform-origin:28% 38%;filter:sepia(.35) saturate(1.1) brightness(.82) contrast(1.05)}
+  .story .cap p{min-height:2.4em}
+  .tabs{display:flex;gap:clamp(18px,3vw,36px);margin-top:2rem;flex-wrap:wrap}
+  .tabs button{font:inherit;background:none;border:0;color:var(--cream);cursor:pointer;padding:0 0 .7rem;border-bottom:1px solid rgba(255,251,230,.3);opacity:.6;transition:opacity .3s,border-color .3s;min-width:7.5rem;text-align:left}
+  .tabs button[aria-selected="true"]{opacity:1;border-color:var(--cream)}
 
-  /* ---------- Next stop ---------- */
-  .stop{position:relative;padding:clamp(90px,12vw,160px) 0;overflow:hidden;background:#cfd2a6}
+  /* ---------- 4. Menu: just type ---------- */
+  .menu{background:var(--cream);color:var(--olive);padding:clamp(90px,14vh,170px) var(--pad) clamp(80px,12vh,150px)}
+  .menu .head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:clamp(36px,6vh,70px)}
+  .menu ul{list-style:none;columns:2;column-gap:clamp(32px,6vw,110px)}
+  .menu li{break-inside:avoid;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.55em 0;border-bottom:1px solid rgba(66,65,6,.22)}
+  .menu li span:first-child{font-weight:200;font-size:clamp(1.5rem,3.1vw,2.7rem);line-height:1.15}
+  .menu li span:last-child{font-weight:600;font-size:.85rem;letter-spacing:.12em;font-variant-numeric:tabular-nums}
+  .menu .foot{margin-top:2.2rem;font-size:.9rem;opacity:.75}
+
+  /* ---------- 5. Next stop: the brand poster, full bleed ---------- */
+  .stop{position:relative;min-height:100svh;overflow:hidden;display:grid;place-items:center;text-align:center;color:var(--olive);background:#E3D6BF;padding:110px var(--pad)}
   .stop svg.waves{position:absolute;inset:0;width:100%;height:100%}
-  .stop .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:center}
-  .stop-card{background:var(--cream);border:1.5px solid var(--olive);padding:clamp(28px,4vw,52px);text-align:center;box-shadow:10px 10px 0 var(--olive)}
-  .stop-card img{width:120px;margin:0 auto 1.4rem}
-  .stop-card .caps{font-size:clamp(1.5rem,2.8vw,2.3rem);letter-spacing:.2em;white-space:nowrap}
-  .stop-card .where{margin:1.4rem 0 .4rem;font-family:var(--display);font-stretch:125%;font-weight:700;letter-spacing:.2em;font-size:1rem;text-transform:uppercase;border:1.5px solid var(--olive);padding:1rem}
-  .stop-card .when{font-size:1rem}
-  .schedule{background:rgba(255,251,230,.92);padding:clamp(24px,3.5vw,44px);border:1px solid var(--olive)}
-  .schedule h2{font-size:clamp(1.6rem,3.2vw,2.4rem);margin-bottom:1.2rem}
-  .schedule ul{list-style:none}
-  .schedule li{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;padding:.9rem 0;border-top:1px solid rgba(66,65,6,.25)}
-  .schedule li b{font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.85rem;padding-top:.15rem}
-  .schedule li span{font-size:1.02rem}
-  .schedule .follow{margin-top:1.4rem;font-size:.98rem}
-  .schedule .follow a{font-weight:700}
+  .stop .in{position:relative;z-index:2;display:grid;justify-items:center;gap:clamp(22px,4vh,40px)}
+  .stop .jeep{width:clamp(120px,15vw,170px)}
+  .stop .next{font-size:clamp(1.3rem,3vw,2.3rem);letter-spacing:.5em;font-weight:700;text-transform:uppercase;padding-left:.5em}
+  .stop .where{background:var(--cream);border:1.5px solid var(--olive);padding:1.3em 2em;min-width:min(86vw,24rem);font-weight:700;letter-spacing:.34em;text-transform:uppercase;font-size:clamp(.9rem,1.5vw,1.15rem);line-height:1.7}
+  .stop .ig{border-bottom:1px solid currentColor;padding-bottom:.4em}
 
-  /* ---------- Gallery ---------- */
-  .gallery{display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-template-rows:300px 300px;gap:6px;background:var(--forest);padding:6px}
-  .gallery figure{overflow:hidden;position:relative}
-  .gallery img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
-  .gallery figure:hover img{transform:scale(1.04)}
-  .gallery .g1{grid-row:span 2}
-  .gallery .quote{background:var(--sand);color:var(--forest);display:flex;flex-direction:column;justify-content:center;padding:2rem}
-  .gallery .quote p{font-size:clamp(1.1rem,1.6vw,1.4rem);font-weight:400;line-height:1.4}
-  .gallery .quote .tracked{margin-top:1rem}
+  /* ---------- 6. Events ---------- */
+  .events{display:grid;grid-template-columns:1fr 1fr;min-height:92svh;background:var(--forest);color:var(--cream)}
+  .events .pic{position:relative;overflow:hidden;min-height:60vw}
+  .events .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:38% 50%}
+  .events .pic::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(22,28,0,.5) 0%,rgba(22,28,0,0) 22%,rgba(22,28,0,0) 72%,rgba(22,28,0,.6) 100%)}
+  .events .txt{display:flex;flex-direction:column;justify-content:center;gap:2rem;padding:clamp(60px,9vh,110px) clamp(24px,5vw,80px)}
+  .events .label{color:var(--sand)}
+  .events .links{display:flex;gap:2.2rem;flex-wrap:wrap}
+  .events .links a{border-bottom:1px solid currentColor;padding-bottom:.5em}
+  .events .addr{font-size:.95rem;opacity:.7;user-select:all}
 
-  /* ---------- Book ---------- */
-  .book{background:var(--forest);color:var(--cream);padding:clamp(80px,11vw,140px) 0}
-  .book-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,6vw,96px)}
-  .book h2{margin:1rem 0 1.5rem}
-  .book p{color:rgba(255,251,230,.8);max-width:28em}
-  .book .perks{list-style:none;margin-top:2rem}
-  .book .perks li{display:flex;gap:.9rem;align-items:center;padding:.7rem 0;border-top:1px solid rgba(212,203,140,.25)}
-  .book .perks li::before{content:"";flex:none;width:22px;height:9px;background:url(assets/bean-cream.png) center/contain no-repeat;opacity:.9}
-  form{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
-  form .full{grid-column:1/-1}
-  label{display:block;font-weight:600;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);margin-bottom:.45rem}
-  input,select,textarea{width:100%;font:inherit;font-size:1rem;font-weight:400;color:var(--cream);background:rgba(255,251,230,.06);border:1px solid rgba(212,203,140,.4);padding:.85rem 1rem;border-radius:0;appearance:none}
-  select{background-image:linear-gradient(45deg,transparent 50%,var(--sand) 50%),linear-gradient(135deg,var(--sand) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat}
-  select option{color:#222}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--sand);background:rgba(255,251,230,.1)}
-  textarea{min-height:120px;resize:vertical}
-  form .btn{justify-self:start;cursor:pointer}
-  .form-msg{grid-column:1/-1;font-size:.95rem;color:var(--sand);min-height:1.4em}
+  /* ---------- 7. Footer: the ridges settle ---------- */
+  footer{position:relative;background:var(--sand);color:var(--olive)}
+  footer svg{display:block;width:100%;height:clamp(90px,16vw,220px);background:var(--forest)}
+  footer .in{padding:clamp(30px,5vh,60px) var(--pad) 70px;display:grid;justify-items:center;gap:2rem;text-align:center}
+  footer .logo{width:min(46vw,200px)}
+  footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem 2.4rem}
 
-  /* ---------- Footer ---------- */
-  footer{background:var(--cream);padding:clamp(64px,9vw,110px) 0 36px;text-align:center}
-  footer .logo{width:min(240px,60vw);margin:0 auto 2rem}
-  footer .slogan{font-size:clamp(1.2rem,3vw,2rem);letter-spacing:.14em;margin-bottom:2rem}
-  footer .links{display:flex;justify-content:center;flex-wrap:wrap;gap:1.5rem 2.5rem;margin-bottom:3rem}
-  footer .links a{text-decoration:none;font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:.8rem;border-bottom:1px solid transparent}
-  footer .links a:hover{border-color:currentColor}
-  footer .fine{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid rgba(66,65,6,.25);padding-top:1.5rem;font-size:.85rem}
-
-  /* ---------- Reveal on scroll ---------- */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
-  .reveal.in{opacity:1;transform:none}
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none!important;transition:none!important}
-    .reveal{opacity:1;transform:none}
-  }
-
-  /* ---------- Responsive ---------- */
+  @media (min-width:961px){ .events .pic{min-height:0} }
   @media (max-width:960px){
-    .nav ul{position:fixed;inset:76px 0 auto 0;flex-direction:column;gap:0;background:var(--forest);padding:1rem var(--gutter) 1.6rem;transform:translateY(-120%);transition:transform .3s;align-items:stretch}
-    .nav ul li a{display:block;padding:1rem 0;border-bottom:1px solid rgba(255,251,230,.1)}
-    .nav ul .btn{margin-top:1rem;justify-content:center}
-    .nav.open ul{transform:none}
-    .nav.open{background:var(--forest)}
-    .menu-toggle{display:block}
-    .nav.open .menu-toggle span:nth-child(1){transform:translateY(8px) rotate(45deg)}
-    .nav.open .menu-toggle span:nth-child(2){opacity:0}
-    .nav.open .menu-toggle span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
-    .hero{grid-template-columns:1fr;min-height:auto}
-    .hero-copy{padding-top:120px;justify-self:stretch;max-width:none}
-    .hero-media{min-height:62vw}
-    .hero-media::before{background:linear-gradient(180deg,var(--forest) 0%,rgba(38,48,0,0) 30%)}
-    .story-grid,.menu-grid,.stop .wrap,.book-grid{grid-template-columns:1fr}
-    .values{grid-template-columns:1fr}
-    .gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}
-    .gallery .g1{grid-row:auto;grid-column:1/-1;height:340px}
-    .gallery figure{height:240px}
-    .gallery .quote{grid-column:1/-1}
+    .events{grid-template-columns:1fr}
+    .events .pic{min-height:70vw}
+    .menu ul{columns:1}
   }
   @media (max-width:560px){
-    body{font-size:17px}
-    .nav .brand span{display:none}
-    .route-line{font-size:.62rem;gap:.5rem;letter-spacing:.14em;flex-wrap:wrap}
-    .route-line i{flex:0 0 36px}
-    .hero-badge{width:96px}
-    form{grid-template-columns:1fr}
-    .gallery{grid-template-columns:1fr}
-    .gallery figure{height:260px}
-    .schedule li{grid-template-columns:1fr;gap:.2rem}
-    .stop-card{box-shadow:6px 6px 0 var(--olive)}
+    .label{font-size:.6rem;letter-spacing:.3em}
+    .nav .l,.nav .r{gap:14px}
+    .nav .mark{width:40px}
+    .alt span{display:none}
+    .tabs button{min-width:0;flex:1}
+    .stop .where{letter-spacing:.22em}
+    .ridges svg{height:38%}
+    .tabs{gap:12px}
+    .tabs button{font-size:.56rem;letter-spacing:.18em;white-space:nowrap}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .story .slide{transition:none}
   }
 </style>
 </head>
 <body>
 
-<!-- ================= NAV ================= -->
+<!-- Tiny fixed nav -->
 <header class="nav" id="nav">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="Coffee Route home">
-      <img src="assets/logo-jeep-cream.png" alt="">
-      <span class="tracked">Coffee Route</span>
-    </a>
-    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span><span></span></button>
-    <ul id="navlinks">
-      <li><a href="#story">Our Story</a></li>
-      <li><a href="#menu">Menu</a></li>
-      <li><a href="#find">Find the Jeep</a></li>
-      <li><a class="btn solid" href="#book">Book Us <span class="arrow">→</span></a></li>
-    </ul>
-  </div>
+  <div class="l"><a class="label" href="#menu">Menu</a><a class="label" href="#find">Find the jeep</a></div>
+  <a class="mark" href="#top" aria-label="Coffee Route, back to top"><img class="c" src="assets/logo-jeep-cream.png" alt=""><img class="o" src="assets/logo-jeep-olive.png" alt=""></a>
+  <div class="r"><a class="label" href="#events">Events</a><a class="label" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram</a></div>
 </header>
+
+<!-- Altitude reading: falls from the peak to Charlotte as you scroll -->
+<div class="alt label" aria-hidden="true"><b id="alt-n">5,364 m</b><span id="alt-p">Nevado del Huila</span></div>
 
 <main id="top">
 
-<!-- ================= HERO ================= -->
-<section class="hero">
-  <div class="hero-copy">
-    <div class="route-line">From the peak of Nevado del Huila <i></i> to Charlotte, NC</div>
-    <h1 class="caps">Taste <em>Colombia</em><br>from the top</h1>
-    <p class="lede">A Colombian coffee jeep on the road. Coffee grown high in the Andes, pulled as espresso and served wherever the route takes us next.</p>
-    <div class="ctas">
-      <a class="btn solid" href="#find">Where's the jeep? <span class="arrow">→</span></a>
-      <a class="btn ghost" href="#menu">See the menu</a>
-    </div>
+<!-- 1. HERO -->
+<section class="hero grain">
+  <h1><img class="logo" src="assets/logo-cream.png" alt="Coffee Route. Inspired by Colombia."></h1>
+  <div class="ridges" aria-hidden="true">
+    <svg data-speed=".10" viewBox="0 0 1440 600" preserveAspectRatio="none"><path d="M0 250 C 220 150, 420 300, 700 210 S 1180 120, 1440 230 V600 H0Z" fill="#4a5a22"/></svg>
+    <svg data-speed=".18" viewBox="0 0 1440 600" preserveAspectRatio="none"><path d="M0 360 C 260 270, 520 430, 820 330 S 1240 260, 1440 350 V600 H0Z" fill="#3b4812"/></svg>
+    <svg data-speed=".28" viewBox="0 0 1440 600" preserveAspectRatio="none"><path d="M0 450 C 300 380, 560 520, 900 430 S 1280 380, 1440 450 V600 H0Z" fill="#2c3606"/></svg>
+    <svg data-speed=".40" viewBox="0 0 1440 600" preserveAspectRatio="none"><path d="M0 530 C 280 480, 640 590, 960 520 S 1300 480, 1440 530 V600 H0Z" fill="#161c00"/></svg>
   </div>
-  <div class="hero-media grain">
-    <img class="photo" src="assets/photo-005.jpg" alt="Barista pouring steamed milk into a green Coffee Route cup">
-    <img class="hero-badge" src="assets/logo-cream.png" alt="Coffee Route — Inspired by Colombia">
+  <p class="tag label">Taste Colombia from the top</p>
+</section>
+
+<!-- 2. ONE PHOTO, ONE LINE -->
+<section class="scene grain">
+  <img class="bg" src="assets/photo-005.jpg" alt="Barista pouring steamed milk into a green Coffee Route cup" style="object-position:52% 50%">
+  <div class="cap">
+    <span class="label">Charlotte, NC</span>
+    <p class="line">A Colombian coffee jeep, on the road.</p>
   </div>
 </section>
 
-<!-- ================= MARQUEE ================= -->
-<div class="marquee" aria-hidden="true">
-  <div class="track">
-    <span class="tracked">Inspired by Colombia <img src="assets/bean-olive.png" alt=""></span>
-    <span class="tracked">Espresso on wheels <img src="assets/bean-olive.png" alt=""></span>
-    <span class="tracked">Charlotte, NC <img src="assets/bean-olive.png" alt=""></span>
-    <span class="tracked">Coffee with altitude <img src="assets/bean-olive.png" alt=""></span>
-    <span class="tracked">Inspired by Colombia <img src="assets/bean-olive.png" alt=""></span>
-    <span class="tracked">Espresso on wheels <img src="assets/bean-olive.png" alt=""></span>
-    <span class="tracked">Charlotte, NC <img src="assets/bean-olive.png" alt=""></span>
-    <span class="tracked">Coffee with altitude <img src="assets/bean-olive.png" alt=""></span>
-  </div>
-</div>
-
-<!-- ================= STORY ================= -->
-<section class="story" id="story">
-  <div class="wrap">
-    <div class="story-grid">
-      <div class="reveal">
-        <div class="eyebrow">Our story</div>
-        <h2 class="caps">More than a coffee. A route.</h2>
-        <p><strong>We bring the mountains of Colombia to your cup:</strong> aromas, altitude and the feeling of a culture that's alive, served in a way that's modern and worth remembering.</p>
-        <p>Coffee Route started with three things: <strong>coffee</strong>, <strong>a jeep built for adventure</strong>, and <strong>the Colombian mountain ranges</strong> where it all grows. Our logo carries all three.</p>
-        <p>Each cup tells a story of Colombia's mountains, valleys and climates, warm and cold, humid and dry. We drive it to wherever you are.</p>
-      </div>
-      <div class="story-photo grain reveal">
-        <img src="assets/photo-007.jpg" alt="Hand reaching for a white Coffee Route latte cup on a deep green table">
-        <div class="tag tracked">Inspired by Colombia</div>
-      </div>
-    </div>
-
-    <div class="values reveal">
-      <div class="value">
-        <div class="n">01</div>
-        <h3>Essence of the Mountains</h3>
-        <p>We honor the heights, landscapes and aromas that make Colombia unique and diverse.</p>
-      </div>
-      <div class="value">
-        <div class="n">02</div>
-        <h3>Modern, with Roots</h3>
-        <p>A contemporary coffee experience with real Colombian authenticity and a global outlook.</p>
-      </div>
-      <div class="value">
-        <div class="n">03</div>
-        <h3>Made to Be Recognized</h3>
-        <p>A look inspired by Colombia's mountains, from the jeep to the cup in your hand.</p>
-      </div>
+<!-- 3. STORY -->
+<section class="scene story grain" id="story">
+  <div class="slide map on"><img src="assets/photo-map.jpg" alt="Relief map of Colombia's mountain ranges"></div>
+  <div class="slide"><img src="assets/photo-beans.jpg" alt="Roasted coffee beans" loading="lazy"></div>
+  <div class="slide"><img src="assets/photo-007.jpg" alt="A hand reaching for a Coffee Route latte" loading="lazy"></div>
+  <div class="cap">
+    <p class="line" id="story-line" aria-live="polite">It starts high in the mountains of Colombia.</p>
+    <div class="tabs" role="tablist" aria-label="Our story">
+      <button class="label" role="tab" aria-selected="true"  data-line="It starts high in the mountains of Colombia.">The mountains</button>
+      <button class="label" role="tab" aria-selected="false" data-line="Every bean carries its valleys and climates, warm and cold, humid and dry.">The bean</button>
+      <button class="label" role="tab" aria-selected="false" data-line="And it ends in your hand, wherever the route takes us.">The cup</button>
     </div>
   </div>
 </section>
 
-<!-- ================= MENU ================= -->
-<!-- TODO: confirm items & prices with the owner. Values below are taken from the A-frame sign in the brand manual. -->
-<section class="menu" id="menu">
-  <img class="watermark" src="assets/logo-cream.png" alt="">
-  <div class="wrap">
-    <div class="menu-head reveal">
-      <div>
-        <div class="eyebrow" style="color:var(--sand)">The menu</div>
-        <h2 class="caps" style="margin-top:1rem">Coffee with altitude</h2>
-      </div>
-      <p>Colombian specialty beans, pulled fresh from the back of the jeep. Ask about today's single origin.</p>
-    </div>
-
-    <div class="menu-grid reveal">
-      <div>
-        <h3 class="tracked">Espresso bar</h3>
-        <ul>
-          <li><b>Espresso</b><span class="dots"></span><span class="p">$2.00</span></li>
-          <li><b>Double Espresso</b><span class="dots"></span><span class="p">$2.00</span></li>
-          <li><b>Macchiato</b><span class="dots"></span><span class="p">$2.00</span></li>
-          <li><b>Americano</b><span class="dots"></span><span class="p">$2.00</span></li>
-          <li><b>Long Black</b><span class="dots"></span><span class="p">$2.00</span></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="tracked">With milk</h3>
-        <ul>
-          <li><b>Flat White</b><span class="dots"></span><span class="p">$3.40</span></li>
-          <li><b>Cappuccino</b><span class="dots"></span><span class="p">$3.40</span></li>
-          <li><b>Latte</b><span class="dots"></span><span class="p">$3.40</span></li>
-          <li><b>Latte Macchiato</b><span class="dots"></span><span class="p">$3.80</span></li>
-          <li><b>Mocha</b><span class="dots"></span><span class="p">$3.80</span></li>
-          <li><b>Iced Latte</b><span class="dots"></span><span class="p">$3.40</span></li>
-        </ul>
-      </div>
-    </div>
-    <p class="note">Oat and almond milk available. Menu and prices may vary by stop.</p>
-  </div>
+<!-- 4. MENU -->
+<!-- TODO: confirm items and prices. These come from the A-frame sign mockup in the brand manual. -->
+<section class="menu" id="menu" data-tone="light">
+  <div class="head"><h2 class="label">Menu</h2><span class="label">Coffee with altitude</span></div>
+  <ul>
+    <li><span>Espresso</span><span>2.00</span></li>
+    <li><span>Double Espresso</span><span>2.00</span></li>
+    <li><span>Macchiato</span><span>2.00</span></li>
+    <li><span>Americano</span><span>2.00</span></li>
+    <li><span>Long Black</span><span>2.00</span></li>
+    <li><span>Flat White</span><span>3.40</span></li>
+    <li><span>Cappuccino</span><span>3.40</span></li>
+    <li><span>Latte</span><span>3.40</span></li>
+    <li><span>Iced Latte</span><span>3.40</span></li>
+    <li><span>Latte Macchiato</span><span>3.80</span></li>
+    <li><span>Mocha</span><span>3.80</span></li>
+  </ul>
 </section>
 
-<!-- ================= NEXT STOP ================= -->
-<section class="stop" id="find">
+<!-- 5. NEXT STOP (the brand poster) -->
+<section class="stop" id="find" data-tone="light">
   <svg class="waves" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
-    <rect width="1440" height="900" fill="#E3D6BF"/>
-    <path d="M0 90 C 260 20, 520 170, 820 110 S 1260 30, 1440 120 V900 H0Z" fill="#D9DCB4" stroke="#424106" stroke-width="1.2"/>
-    <path d="M0 220 C 300 140, 560 300, 900 220 S 1300 160, 1440 240 V900 H0Z" fill="#C9AE94" stroke="#424106" stroke-width="1.2"/>
-    <path d="M0 360 C 240 300, 620 430, 940 350 S 1320 300, 1440 380 V900 H0Z" fill="#C5CC9E" stroke="#424106" stroke-width="1.2"/>
-    <path d="M0 500 C 330 420, 640 580, 980 500 S 1300 440, 1440 520 V900 H0Z" fill="#A5856C" stroke="#424106" stroke-width="1.2"/>
-    <path d="M0 640 C 280 580, 600 720, 920 640 S 1320 590, 1440 660 V900 H0Z" fill="#B3BC8C" stroke="#424106" stroke-width="1.2"/>
-    <path d="M0 780 C 300 720, 640 850, 960 780 S 1300 730, 1440 790 V900 H0Z" fill="#8E6450" stroke="#424106" stroke-width="1.2"/>
+    <path d="M0 90 C 260 20, 520 170, 820 110 S 1260 30, 1440 120 V900 H0Z" fill="#D9DCB4" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 220 C 300 140, 560 300, 900 220 S 1300 160, 1440 240 V900 H0Z" fill="#C9AE94" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 360 C 240 300, 620 430, 940 350 S 1320 300, 1440 380 V900 H0Z" fill="#C5CC9E" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 500 C 330 420, 640 580, 980 500 S 1300 440, 1440 520 V900 H0Z" fill="#A5856C" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 640 C 280 580, 600 720, 920 640 S 1320 590, 1440 660 V900 H0Z" fill="#B3BC8C" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 780 C 300 720, 640 850, 960 780 S 1300 730, 1440 790 V900 H0Z" fill="#8E6450" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
   </svg>
-  <div class="wrap">
-    <div class="stop-card reveal">
-      <img src="assets/logo-jeep-olive.png" alt="">
-      <div class="caps">Next stop</div>
-      <!-- TODO: update each week -->
-      <div class="where" id="next-where">Announced on Instagram</div>
-      <div class="when" id="next-when">Follow @coffeerouteclt for this week's route</div>
-    </div>
-    <div class="schedule reveal">
-      <div class="eyebrow">Find the jeep</div>
-      <h2 class="caps" style="margin-top:.8rem">This week's route</h2>
-      <!-- TODO: replace with real stops, or embed a calendar -->
-      <ul>
-        <li><b>Mon–Tue</b><span>Off the road, roasting and resting</span></li>
-        <li><b>Wed–Fri</b><span>Morning stops around Charlotte, 7–11am</span></li>
-        <li><b>Sat</b><span>Markets, trails &amp; pop-ups</span></li>
-        <li><b>Sun</b><span>Private events &amp; catering</span></li>
-      </ul>
-      <p class="follow">We post exact locations every week on <a href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram @coffeerouteclt</a>.</p>
-    </div>
+  <div class="in">
+    <img class="jeep" src="assets/logo-jeep-olive.png" alt="">
+    <h2 class="next">Next stop</h2>
+    <!-- TODO: update each week with the real stop -->
+    <p class="where">This week's stop<br>is on Instagram</p>
+    <a class="label ig" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">@coffeerouteclt</a>
   </div>
 </section>
 
-<!-- ================= GALLERY ================= -->
-<section class="gallery" aria-label="Coffee Route in the wild">
-  <figure class="g1 grain"><img src="assets/photo-009.jpg" alt="Barista in a white 'Taste Colombia From The Top' t-shirt" loading="lazy"></figure>
-  <figure class="grain"><img src="assets/photo-011.jpg" alt="Coffee Route cards featuring the Sierra Nevada del Cocuy" loading="lazy"></figure>
-  <figure class="grain"><img src="assets/photo-006.jpg" alt="Next Stop poster and green Coffee Route A-frame menu sign" loading="lazy" style="object-position:80% 50%"></figure>
-  <div class="quote">
-    <p>“Discover what it feels like to be in the mountains of Colombia, and savor our coffee from the top.”</p>
-    <div class="tracked">Coffee Route</div>
-  </div>
-  <figure class="grain"><img src="assets/photo-003.jpg" alt="Freshly ground Colombian coffee in a paper filter" loading="lazy"></figure>
-</section>
-
-<!-- ================= BOOK ================= -->
-<section class="book" id="book">
-  <div class="wrap book-grid">
-    <div class="reveal">
-      <div class="eyebrow" style="color:var(--sand)">Events &amp; catering</div>
-      <h2 class="caps">Bring the jeep to you</h2>
-      <p>Weddings, office mornings, markets, birthdays, brand activations. We park, set up the espresso bar, and serve your guests coffee from the Colombian mountains.</p>
-      <ul class="perks">
-        <li>Full espresso bar served from the jeep</li>
-        <li>Custom drink menu for your event</li>
-        <li>Charlotte and surrounding areas</li>
-      </ul>
+<!-- 6. EVENTS -->
+<section class="events" id="events">
+  <div class="pic grain"><img src="assets/photo-009.jpg" alt="Barista wearing a Taste Colombia From The Top t-shirt" loading="lazy"></div>
+  <div class="txt">
+    <span class="label">Events</span>
+    <p class="line">Bring the jeep to your wedding, office or market.</p>
+    <div class="links">
+      <a class="label" id="mail" href="mailto:hello@coffeeroute.com?subject=Event%20request">Email us</a>
+      <a class="label" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Message on Instagram</a>
     </div>
-    <form class="reveal" id="book-form" novalidate>
-      <div><label for="f-name">Name</label><input id="f-name" name="name" required autocomplete="name"></div>
-      <div><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
-      <div><label for="f-date">Event date</label><input id="f-date" name="date" type="date"></div>
-      <div><label for="f-guests">Guests</label>
-        <select id="f-guests" name="guests"><option>Under 50</option><option>50–100</option><option>100–200</option><option>200+</option></select></div>
-      <div class="full"><label for="f-type">Type of event</label>
-        <select id="f-type" name="type"><option>Wedding</option><option>Corporate / office</option><option>Market or festival</option><option>Private party</option><option>Other</option></select></div>
-      <div class="full"><label for="f-msg">Tell us about it</label><textarea id="f-msg" name="message" placeholder="Location, timing, anything else we should know"></textarea></div>
-      <button class="btn solid" type="submit">Send request <span class="arrow">→</span></button>
-      <div class="form-msg" role="status" aria-live="polite"></div>
-    </form>
+    <!-- TODO: replace with the real inbox (also in the mailto link above) -->
+    <p class="addr">hello@coffeeroute.com</p>
   </div>
 </section>
 
 </main>
 
-<!-- ================= FOOTER ================= -->
-<footer>
-  <div class="wrap">
-    <img class="logo" src="assets/logo-olive.png" alt="Coffee Route — Inspired by Colombia">
-    <div class="caps slogan">Taste Colombia from the top</div>
-    <nav class="links" aria-label="Footer">
-      <a href="#story">Our Story</a>
-      <a href="#menu">Menu</a>
-      <a href="#find">Find the Jeep</a>
-      <a href="#book">Book Us</a>
-      <a href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram</a>
+<!-- 7. FOOTER -->
+<footer data-tone="light">
+  <svg viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 60 C 260 0, 520 130, 820 70 S 1260 0, 1440 80 V220 H0Z" fill="#424106"/>
+    <path d="M0 120 C 300 60, 560 190, 900 120 S 1300 70, 1440 130 V220 H0Z" fill="#707C4F"/>
+    <path d="M0 175 C 280 130, 640 230, 960 170 S 1300 140, 1440 180 V220 H0Z" fill="#D4CB8C"/>
+  </svg>
+  <div class="in">
+    <img class="logo" src="assets/logo-olive.png" alt="Coffee Route. Inspired by Colombia.">
+    <nav aria-label="Footer">
+      <a class="label" href="#menu">Menu</a>
+      <a class="label" href="#find">Find the jeep</a>
+      <a class="label" href="#events">Events</a>
+      <a class="label" href="https://www.instagram.com/coffeerouteclt/" target="_blank" rel="noopener">Instagram</a>
     </nav>
-    <div class="fine">
-      <span>© <span id="yr"></span> Coffee Route · Charlotte, NC</span>
-      <span>Inspired by Colombia</span>
-    </div>
+    <p class="label">© <span id="yr"></span> Coffee Route · Charlotte, NC</p>
   </div>
 </footer>
 
 <script>
-  // ---- Settings: change these ----
-  const BOOKING_EMAIL = "hello@coffeeroute.com"; // TODO: replace with the real inbox
-
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Nav background on scroll + mobile toggle
+  // Altitude: Nevado del Huila (5,364 m) at the top of the page, Charlotte (229 m) at the bottom.
+  const TOP = 5364, BOTTOM = 229;
+  const altN = document.getElementById('alt-n'), altP = document.getElementById('alt-p');
   const nav = document.getElementById('nav');
-  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 40);
-  addEventListener('scroll', onScroll, {passive:true}); onScroll();
-  const toggle = nav.querySelector('.menu-toggle');
-  toggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open);
-  });
-  nav.querySelectorAll('#navlinks a').forEach(a => a.addEventListener('click', () => {
-    nav.classList.remove('open'); toggle.setAttribute('aria-expanded', false);
+  const ridges = [...document.querySelectorAll('.ridges svg')];
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const altEl = document.querySelector('.alt');
+  const lights = [...document.querySelectorAll('[data-tone="light"]')];
+  const toneAt = y => lights.some(el => { const r = el.getBoundingClientRect(); return r.top <= y && r.bottom > y; });
+  let ticking = false;
+  function frame(){
+    ticking = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const t = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+    const m = Math.round(TOP - (TOP - BOTTOM) * t);
+    altN.textContent = m.toLocaleString('en-US') + ' m';
+    altP.textContent = t < .04 ? 'Nevado del Huila' : t > .96 ? 'Charlotte, NC' : 'Descending';
+    nav.classList.toggle('past', scrollY > innerHeight * .6);
+    nav.classList.toggle('light', toneAt(34));
+    altEl.classList.toggle('light', toneAt(innerHeight - 28));
+    if (!still && scrollY < innerHeight * 1.2)
+      ridges.forEach(r => r.style.transform = `translateY(${scrollY * parseFloat(r.dataset.speed)}px)`);
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, {passive:true});
+  addEventListener('resize', frame);
+  frame();
+
+  // Story tabs
+  const tabs = [...document.querySelectorAll('.tabs button')];
+  const slides = [...document.querySelectorAll('.story .slide')];
+  const line = document.getElementById('story-line');
+  tabs.forEach((b, i) => b.addEventListener('click', () => {
+    tabs.forEach((x, j) => x.setAttribute('aria-selected', j === i));
+    slides.forEach((s, j) => s.classList.toggle('on', j === i));
+    line.textContent = b.dataset.line;
   }));
-
-  // Reveal on scroll
-  const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }), {threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  // Booking form -> opens the visitor's email app (no backend needed)
-  const form = document.getElementById('book-form');
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const msg = form.querySelector('.form-msg');
-    const d = Object.fromEntries(new FormData(form));
-    if (!d.name || !/^\S+@\S+\.\S+$/.test(d.email)) { msg.textContent = 'Please add your name and a valid email.'; return; }
-    const body = `Name: ${d.name}\nEmail: ${d.email}\nDate: ${d.date || '—'}\nGuests: ${d.guests}\nEvent: ${d.type}\n\n${d.message || ''}`;
-    location.href = `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent('Event request: ' + d.type)}&body=${encodeURIComponent(body)}`;
-    msg.textContent = 'Opening your email app… we’ll get back to you soon.';
-  });
 </script>
 </body>
 </html>
