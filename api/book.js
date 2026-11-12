@@ -89,7 +89,7 @@ module.exports = async function handler(req, res) {
   // The address is written correctly. Now check its domain can actually receive email.
   const domain = booking.email.split('@')[1].toLowerCase();
   if (!(await domainTakesEmail(domain))) {
-    return res.status(400).json({ ok: false, field: 'email', error: `We can't send email to "${domain}". Please check your email address.` });
+    return res.status(400).json({ ok: false, field: 'email', error: `We couldn't find an email provider called "${domain}". Please check the part after the @.` });
   }
 
   // The settings must be present, otherwise we cannot send anything.

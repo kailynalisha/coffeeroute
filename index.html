@@ -124,6 +124,8 @@
   .book textarea{min-height:5.5rem;resize:vertical}
   .book input:focus,.book select:focus,.book textarea:focus{outline:none;border-bottom-color:var(--cream)}
   .book [aria-invalid="true"],.book [aria-invalid="true"]:focus{border-bottom-color:#f0a070;border-bottom-width:2px}
+  .book .ferr{color:#f0b596;font-size:.9rem;line-height:1.35;margin-top:.45rem}
+  .book .ferr:empty{display:none}
   .book .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
   .book .row{display:flex;align-items:center;gap:1.6rem;flex-wrap:wrap}
   .events .book button{color:var(--forest)}
@@ -264,15 +266,15 @@
     <p class="line">Bring the jeep to your wedding, office or market.</p>
     <!-- Booking form: sends to api/book.js, our own mini server, which emails the owner. -->
     <form class="book" id="book" novalidate>
-      <div><label class="label" for="b-name">Name</label><input id="b-name" name="name" autocomplete="name" required></div>
-      <div><label class="label" for="b-email">Email</label><input id="b-email" name="email" type="email" autocomplete="email" required></div>
+      <div><label class="label" for="b-name">Name</label><input aria-describedby="b-name-err" id="b-name" name="name" autocomplete="name" required><p class="ferr" id="b-name-err" role="alert"></p></div>
+      <div><label class="label" for="b-email">Email</label><input aria-describedby="b-email-err" id="b-email" name="email" type="email" autocomplete="email" required><p class="ferr" id="b-email-err" role="alert"></p></div>
       <div><label class="label" for="b-phone">Phone (optional)</label><input id="b-phone" name="phone" type="tel" autocomplete="tel"></div>
-      <div><label class="label" for="b-date">Event date</label><input id="b-date" name="event_date" type="date" required></div>
+      <div><label class="label" for="b-date">Event date</label><input aria-describedby="b-date-err" id="b-date" name="event_date" type="date" required><p class="ferr" id="b-date-err" role="alert"></p></div>
       <div><label class="label" for="b-type">Type of event</label>
         <select id="b-type" name="event_type"><option>Wedding</option><option>Office or corporate</option><option>Market or festival</option><option>Private party</option><option>Something else</option></select></div>
       <div><label class="label" for="b-guests">Guests</label>
         <select id="b-guests" name="guests"><option>Under 50</option><option>50 to 100</option><option>100 to 200</option><option>More than 200</option></select></div>
-      <div class="full"><label class="label" for="b-where">Location</label><input id="b-where" name="location" placeholder="Venue or neighborhood" required></div>
+      <div class="full"><label class="label" for="b-where">Location</label><input aria-describedby="b-where-err" id="b-where" name="location" placeholder="Venue or neighborhood" required><p class="ferr" id="b-where-err" role="alert"></p></div>
       <div class="full"><label class="label" for="b-msg">Anything else?</label><textarea id="b-msg" name="message" placeholder="Timing, drinks you have in mind, questions"></textarea></div>
       <input class="hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="full row"><button class="label" type="submit">Send request</button><p class="msg" id="b-status" role="status" aria-live="polite"></p></div>
@@ -339,33 +341,38 @@
   // ---- Booking form ----
   // Sends each request to our own mini server (api/book.js), which emails the owner.
   const book = document.getElementById('book'), bStatus = document.getElementById('b-status');
-  book.addEventListener('input', ev => ev.target.removeAttribute('aria-invalid'));
+  const say = (t, err) => { bStatus.textContent = t; bStatus.classList.toggle('err', !!err); };
+
   // A properly written email: name@domain.ending, no spaces, no double dots
-  const emailOk = v => /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/.test(v.trim()) && !v.includes('..');
-  // Check the email as soon as the visitor leaves the field
-  const emailEl = document.getElementById('b-email');
-  emailEl.addEventListener('blur', () => {
-    if (emailEl.value.trim() && !emailOk(emailEl.value)) {
-      emailEl.setAttribute('aria-invalid', true);
-      bStatus.textContent = 'That email address doesn\u2019t look right. It should look like name@example.com.';
-      bStatus.classList.add('err');
-    }
+  const emailOk = v => /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/.test(v) && !v.includes('..');
+  const today = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
+
+  // One rule per required field. Each returns the message to show, or '' if the field is fine.
+  const rules = {
+    'b-name':  v => v ? '' : 'Please enter your name.',
+    'b-email': v => !v ? 'Please enter your email address.'
+                 : !v.includes('@') ? 'This email is missing an @. It should look like name@example.com.'
+                 : emailOk(v) ? '' : 'This doesn’t look like a full email address. It should look like name@example.com.',
+    'b-date':  v => !v ? 'Please choose the date of your event.'
+                 : v < today() ? 'That date has already passed. Please choose a future date.' : '',
+    'b-where': v => v ? '' : 'Please tell us where the event will be.'
+  };
+  const showError = (el, msg) => {
+    document.getElementById(el.id + '-err').textContent = msg;
+    if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+  };
+  const check = el => { const msg = rules[el.id](el.value.trim()); showError(el, msg); return !msg; };
+
+  Object.keys(rules).forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('blur', () => check(el));                       // leaving a field: say what is wrong
+    el.addEventListener('input', () => { if (el.hasAttribute('aria-invalid')) check(el); }); // fixing it: clear the message
   });
+
   book.addEventListener('submit', async e => {
     e.preventDefault();
-    const say = (t, err) => { bStatus.textContent = t; bStatus.classList.toggle('err', !!err); };
-    // Check required fields before sending
-    let firstBad = null;
-    book.querySelectorAll('[required]').forEach(el => {
-      const bad = !el.value.trim() || (el.type === 'email' && !emailOk(el.value));
-      el.setAttribute('aria-invalid', bad);
-      if (bad && !firstBad) firstBad = el;
-    });
-    if (firstBad) {
-      const emailTyped = firstBad.type === 'email' && firstBad.value.trim();
-      say(emailTyped ? 'That email address doesn\u2019t look right. It should look like name@example.com.' : 'Please fill in your name, email, event date and location.', true);
-      firstBad.focus(); return;
-    }
+    const bad = Object.keys(rules).map(id => document.getElementById(id)).filter(el => !check(el));
+    if (bad.length) { say('Please fix the highlighted ' + (bad.length > 1 ? 'fields' : 'field') + ' above.', true); bad[0].focus(); return; }
 
     const btn = book.querySelector('button'); btn.disabled = true; say('Sending…');
     try {
@@ -376,8 +383,10 @@
       });
       const out = await res.json().catch(() => ({}));
       if (res.status === 400 && out.error) {       // the server found a problem with what was typed
-        btn.disabled = false; say(out.error, true);
-        if (out.field === 'email') { emailEl.setAttribute('aria-invalid', true); emailEl.focus(); }
+        btn.disabled = false;
+        const emailEl = document.getElementById('b-email');
+        if (out.field === 'email') { showError(emailEl, out.error); emailEl.focus(); say('Please fix the highlighted field above.', true); }
+        else say(out.error, true);
         return;
       }
       if (!res.ok || !out.ok) throw new Error(out.error || 'Send failed');
