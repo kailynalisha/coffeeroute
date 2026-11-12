@@ -57,6 +57,7 @@ a{color:inherit;text-decoration:none}
 /* ---------- 1. Hero: the logo above the ridges ---------- */
 .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;color:var(--cream);
   background:radial-gradient(120% 80% at 50% 0%, #37440a 0%, var(--forest) 45%, var(--night) 100%)}
+.hero .what{position:absolute;left:0;right:0;bottom:6vh;z-index:6;text-align:center;color:var(--sand);padding:0 var(--pad)}
 .hero .logo{position:absolute;left:50%;top:37%;width:min(60vw,44svh,400px);transform:translate(-50%,-50%);z-index:2}
 .ridges{position:absolute;inset:0;z-index:4;pointer-events:none}
 .ridges svg{position:absolute;left:0;bottom:-2px;width:100%;height:44%;will-change:transform}
@@ -86,11 +87,17 @@ a{color:inherit;text-decoration:none}
 .tabs{display:flex;gap:clamp(18px,3vw,36px);margin-top:2rem;flex-wrap:wrap}
 .tabs button{font:inherit;background:none;border:0;color:var(--cream);cursor:pointer;padding:0 0 .7rem;border-bottom:1px solid rgba(255,251,230,.3);opacity:.6;transition:opacity .3s,border-color .3s;min-width:7.5rem;text-align:left}
 .tabs button[aria-selected="true"]{opacity:1;border-color:var(--cream)}
+.tabs button{position:relative}
+.tabs button::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:currentColor}
+.story.playing .tabs button[aria-selected="true"]{border-bottom-color:color-mix(in srgb,currentColor 30%,transparent)}
+.story.playing .tabs button[aria-selected="true"]::after{animation:tabfill 6s linear forwards}
+@keyframes tabfill{to{width:100%}}
 
 /* ---------- 4. Menu: just type ---------- */
 .menu{background:var(--cream);color:var(--olive);padding:clamp(90px,14vh,170px) var(--pad) clamp(80px,12vh,150px)}
 .menu .head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:clamp(36px,6vh,70px)}
-.menu ul{list-style:none;columns:2;column-gap:clamp(32px,6vw,110px)}
+.menu .head,.menu ul{max-width:44rem;margin-left:auto;margin-right:auto}
+.menu ul{list-style:none}
 .menu li{break-inside:avoid;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.55em 0;border-bottom:1px solid rgba(66,65,6,.22)}
 .menu li span:first-child{font-weight:200;font-size:clamp(1.5rem,3.1vw,2.7rem);line-height:1.15}
 .menu li span:last-child{font-weight:600;font-size:1.02rem;letter-spacing:.08em;font-variant-numeric:tabular-nums}
@@ -113,7 +120,7 @@ a{color:inherit;text-decoration:none}
 .events .txt{display:flex;flex-direction:column;justify-content:center;gap:2rem;padding:clamp(60px,9vh,110px) clamp(24px,5vw,80px)}
 .events .label{color:var(--sand)}
 /* About: same split layout, mirrored, on olive */
-.about{background:var(--olive)}
+.about{background:var(--forest)}
 .about .pic img{object-position:60% 40%}
 .about .txt p:not(.line){max-width:32rem;font-size:1.1rem;line-height:1.6}
 .about .todo{opacity:.7;border-left:1px dashed rgba(255,251,230,.5);padding-left:1rem}
@@ -152,7 +159,6 @@ footer nav a{padding:1em 0}
 @media (max-width:960px){
   .events{grid-template-columns:1fr}
   .events .pic{min-height:70vw}
-  .menu ul{columns:1}
 }
 @media (max-width:560px){
   /* small capital labels: never below 12.5px */
@@ -208,4 +214,5 @@ footer nav a{padding:1em 0}
 .bookpage .intro{max-width:32rem;font-size:1.1rem;line-height:1.6;opacity:.9}
 .nav .back{display:inline-flex;align-items:center;gap:.7em}
 @media (max-width:960px){ .bookpage .events .pic{min-height:56vw;max-height:60vh} .bookpage .events .txt{padding-top:clamp(40px,7vh,70px)} }
-
+.bookpage .events .pic img{object-position:62% 40%}
+@media (max-width:960px){ .bookpage .events .pic{min-height:80vw} }

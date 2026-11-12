@@ -38,6 +38,7 @@
     <svg data-speed=".28" viewBox="0 0 1440 600" preserveAspectRatio="none"><path d="M0 450 C 300 380, 560 520, 900 430 S 1280 380, 1440 450 V600 H0Z" fill="#2c3606"/></svg>
     <svg data-speed=".40" viewBox="0 0 1440 600" preserveAspectRatio="none"><path d="M0 530 C 280 480, 640 590, 960 520 S 1300 480, 1440 530 V600 H0Z" fill="#161c00"/></svg>
   </div>
+  <p class="what label">Coffee Jeep · Charlotte, NC</p>
 </section>
 
 <!-- 3. STORY -->
@@ -74,12 +75,12 @@
 <section class="menu" id="menu" data-tone="light">
   <div class="head"><h2 class="label">Menu</h2><span class="label">Coffee with altitude</span></div>
   <ul>
-    <li><span>Espresso</span><span>2.00</span></li>
-    <li><span>Americano</span><span>2.00</span></li>
-    <li><span>Flat White</span><span>3.40</span></li>
-    <li><span>Cappuccino</span><span>3.40</span></li>
-    <li><span>Latte</span><span>3.40</span></li>
-    <li><span>Iced Latte</span><span>3.40</span></li>
+    <li><span>Espresso</span><span>$2.00</span></li>
+    <li><span>Americano</span><span>$2.00</span></li>
+    <li><span>Flat White</span><span>$3.40</span></li>
+    <li><span>Cappuccino</span><span>$3.40</span></li>
+    <li><span>Latte</span><span>$3.40</span></li>
+    <li><span>Iced Latte</span><span>$3.40</span></li>
   </ul>
 </section>
 
@@ -175,19 +176,25 @@
   addEventListener('resize', frame);
   frame();
 
-  // Story tabs
+  // Story tabs: tap one, or let them play. The line under the current tab fills up, then the next slide shows.
+  const story = document.getElementById('story');
   const tabs = [...document.querySelectorAll('.tabs button')];
   const slides = [...document.querySelectorAll('.story .slide')];
   const line = document.getElementById('story-line');
-  tabs.forEach((b, i) => b.addEventListener('click', () => {
+  function showSlide(i) {
     tabs.forEach((x, j) => x.setAttribute('aria-selected', j === i));
     slides.forEach((s, j) => s.classList.toggle('on', j === i));
-    const story = document.getElementById('story');            // the map slide is pale, the photo slides are dark
-    story.classList.toggle('pale', i === 0);
+    story.classList.toggle('pale', i === 0);                    // the map slide is pale, the photo slides are dark
     if (i === 0) story.dataset.tone = 'light'; else delete story.dataset.tone;
+    line.textContent = tabs[i].dataset.line;
     frame();
-    line.textContent = b.dataset.line;
-  }));
+  }
+  tabs.forEach((b, i) => {
+    b.addEventListener('click', () => showSlide(i));
+    b.addEventListener('animationend', () => showSlide((i + 1) % tabs.length));   // timer line is full: next slide
+  });
+  // Only play while the story is on screen, and never for visitors who ask for reduced motion
+  if (!still) new IntersectionObserver(es => story.classList.toggle('playing', es[0].isIntersecting), {threshold: .5}).observe(story);
 </script>
 </body>
 </html>
