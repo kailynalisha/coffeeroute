@@ -216,4 +216,6 @@ footer nav a{padding:1em 0}
 .nav .back{display:inline-flex;align-items:center;gap:.7em}
 @media (max-width:960px){ .bookpage .events .pic{min-height:56vw;max-height:60vh} .bookpage .events .txt{padding-top:clamp(40px,7vh,70px)} }
 .bookpage .events .pic img{object-position:58% 50%}
+/* desktop: the photo stays one screen tall and in view while the form scrolls, so the cup and its logo always show */
+@media (min-width:961px){ .bookpage .events .pic{position:sticky;top:0;height:100svh;align-self:start} }
 @media (max-width:960px){ .bookpage .events .pic{min-height:80vw} }
