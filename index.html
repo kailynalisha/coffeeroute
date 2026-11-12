@@ -86,12 +86,12 @@
 <!-- 5. NEXT STOP (the brand poster) -->
 <section class="stop" id="find" data-tone="light">
   <svg class="waves" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 90 C 260 20, 520 170, 820 110 S 1260 30, 1440 120 V900 H0Z" fill="#D9DCB4" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
-    <path d="M0 220 C 300 140, 560 300, 900 220 S 1300 160, 1440 240 V900 H0Z" fill="#C9AE94" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
-    <path d="M0 360 C 240 300, 620 430, 940 350 S 1320 300, 1440 380 V900 H0Z" fill="#C5CC9E" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
-    <path d="M0 500 C 330 420, 640 580, 980 500 S 1300 440, 1440 520 V900 H0Z" fill="#A5856C" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
-    <path d="M0 640 C 280 580, 600 720, 920 640 S 1320 590, 1440 660 V900 H0Z" fill="#B3BC8C" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
-    <path d="M0 780 C 300 720, 640 850, 960 780 S 1300 730, 1440 790 V900 H0Z" fill="#8E6450" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 90 C 260 20, 520 170, 820 110 S 1260 30, 1440 120 V1500 H0Z" fill="#D9DCB4" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 220 C 300 140, 560 300, 900 220 S 1300 160, 1440 240 V1500 H0Z" fill="#C9AE94" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 360 C 240 300, 620 430, 940 350 S 1320 300, 1440 380 V1500 H0Z" fill="#C5CC9E" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 500 C 330 420, 640 580, 980 500 S 1300 440, 1440 520 V1500 H0Z" fill="#A5856C" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 640 C 280 580, 600 720, 920 640 S 1320 590, 1440 660 V1500 H0Z" fill="#B3BC8C" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M0 780 C 300 720, 640 850, 960 780 S 1300 730, 1440 790 V1500 H0Z" fill="#8E6450" stroke="#424106" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
   </svg>
   <div class="in">
     <img class="jeep" src="assets/logo-jeep-olive.png" alt="">
@@ -142,6 +142,7 @@
   const altN = document.getElementById('alt-n'), altP = document.getElementById('alt-p');
   const nav = document.getElementById('nav');
   const ridges = [...document.querySelectorAll('.ridges svg')];
+  const stop = document.getElementById('find'), waves = [...stop.querySelectorAll('.waves path')];
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const altEl = document.querySelector('.alt');
   const toneAt = y => [...document.querySelectorAll('[data-tone="light"]')].some(el => { const r = el.getBoundingClientRect(); return r.top <= y && r.bottom > y; });
@@ -159,6 +160,14 @@
     // On phones the altitude chip steps aside wherever it would sit on top of text
     const overText = [...document.querySelectorAll('.about .txt, .menu, #events .txt, footer .in')].some(el => { const r = el.getBoundingClientRect(); return r.top < innerHeight - 8 && r.bottom > innerHeight - 60; });
     altEl.classList.toggle('away', overText);
+    // Next Stop poster: each wavy layer drifts at its own speed while the section is on screen
+    if (!still) {
+      const r = stop.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < innerHeight) {
+        const t = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;   // 1 entering, 0 centered, -1 leaving
+        waves.forEach((w, i) => w.setAttribute('transform', `translate(${(t * (i % 2 ? -1 : 1) * 70).toFixed(1)} ${(t * (30 + i * 34)).toFixed(1)})`));
+      }
+    }
     if (!still && scrollY < innerHeight * 1.2)
       ridges.forEach(r => r.style.transform = `translateY(${scrollY * parseFloat(r.dataset.speed)}px)`);
   }
