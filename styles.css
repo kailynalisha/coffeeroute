@@ -65,7 +65,7 @@ a{color:inherit;text-decoration:none}
 .scene{position:relative;min-height:100svh;overflow:hidden;color:var(--cream);display:flex;align-items:flex-end;background:var(--night)}
 .scene > img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .scene::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(22,28,0,.55) 0%,rgba(22,28,0,0) 30%,rgba(22,28,0,0) 50%,rgba(22,28,0,.8) 100%)}
-.scene .cap{position:relative;z-index:5;padding:0 var(--pad) clamp(70px,11vh,120px);max-width:60rem}
+.scene .cap{position:relative;z-index:5;width:100%;padding:0 var(--pad) clamp(70px,11vh,120px);max-width:60rem}
 .scene .cap .label{display:block;margin-bottom:1.2rem;color:var(--sand)}
 
 /* ---------- 3. Story: three scenes, one sentence each ---------- */
