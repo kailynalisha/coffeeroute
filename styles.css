@@ -58,7 +58,12 @@ a{color:inherit;text-decoration:none}
 .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;color:var(--cream);
   background:radial-gradient(120% 80% at 50% 0%, #37440a 0%, var(--forest) 45%, var(--night) 100%)}
 .hero .what{position:absolute;left:0;right:0;bottom:6vh;z-index:6;text-align:center;color:var(--sand);padding:0 var(--pad)}
-.hero .logo{position:absolute;left:50%;top:37%;width:min(60vw,44svh,400px);transform:translate(-50%,-50%);z-index:2}
+.hero .logo{position:absolute;left:50%;top:37%;width:min(60vw,37svh,340px);transform:translate(-50%,-50%);z-index:2}
+/* The Jeep comes over the hill: the logo starts hidden behind the ridges and rises into place */
+@media (prefers-reduced-motion:no-preference){
+  .hero .logo{animation:overhill 1.7s cubic-bezier(.2,.75,.2,1) .15s both}
+  @keyframes overhill{from{translate:0 72svh}to{translate:0 0}}
+}
 .ridges{position:absolute;inset:0;z-index:4;pointer-events:none}
 .ridges svg{position:absolute;left:0;bottom:-2px;width:100%;height:44%;will-change:transform}
 
