@@ -157,7 +157,7 @@
     nav.classList.toggle('light', toneAt(34));
     altEl.classList.toggle('light', toneAt(innerHeight - 28));
     // On phones the altitude chip steps aside wherever it would sit on top of text
-    const overText = [...document.querySelectorAll('.about .txt, .menu, #events .txt, footer .in')].some(el => { const r = el.getBoundingClientRect(); return r.top < innerHeight - 8 && r.bottom > innerHeight - 60; });
+    const overText = [...document.querySelectorAll('.about .txt > *, .menu, #events .txt, footer .in')].some(el => { const r = el.getBoundingClientRect(); return r.top < innerHeight - 8 && r.bottom > innerHeight - 60; });
     altEl.classList.toggle('away', overText);
     // Next Stop poster: each wavy layer drifts at its own speed while the section is on screen
     if (!still) {
