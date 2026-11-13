@@ -23,7 +23,8 @@ a{color:inherit;text-decoration:none}
 
 /* The one small-text style used everywhere (like the tracked caps on the brand's t-shirt and cards) */
 .label{font-weight:700;font-size:.8rem;letter-spacing:.26em;text-transform:uppercase}
-.line{font-weight:200;font-size:clamp(1.5rem,3.2vw,2.9rem);line-height:1.18;letter-spacing:.005em;text-wrap:balance}
+/* Headings: Rammetto One, the closest free match to the flared lettering in the logo */
+.line{font-family:"Rammetto One","Titillium Web",system-ui,sans-serif;font-weight:400;font-size:clamp(1.45rem,2.7vw,2.5rem);line-height:1.2;letter-spacing:0;text-wrap:balance}
 
 /* Warm film grain over photos (brand photo style: movement, not "HD") */
 .grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;mix-blend-mode:overlay;z-index:3;
@@ -151,12 +152,21 @@ a{color:inherit;text-decoration:none}
 footer{position:relative;background:var(--sand);color:var(--olive)}
 footer{overflow:hidden}
 footer svg{display:block;width:120%;margin-left:-10%;height:clamp(90px,16vw,220px);background:var(--forest);overflow:visible}
+footer .slogan{font-size:clamp(1.15rem,2vw,1.7rem)}
 footer .in{padding:clamp(30px,5vh,60px) var(--pad) 70px;display:grid;justify-items:center;gap:2rem;text-align:center}
 footer .logo{width:min(46vw,200px)}
 footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:0 2.2rem}
 footer nav a{padding:1em 0}
 
-@media (min-width:961px){ .events .pic{min-height:0} .about .pic{order:2} }
+@media (min-width:961px){
+  .events .pic{min-height:0}
+  /* About breaks the half-and-half pattern: the photo fills the section and the story sits over its left side */
+  .about{display:block;position:relative;min-height:100svh}
+  .about .pic{position:absolute;inset:0}
+  .about .pic img{object-position:50% 58%}
+  .about .pic::before{background:linear-gradient(90deg,rgba(22,28,0,.94) 0%,rgba(22,28,0,.86) 30%,rgba(22,28,0,.35) 52%,rgba(22,28,0,0) 68%),linear-gradient(180deg,rgba(22,28,0,.5) 0%,rgba(22,28,0,0) 20%)}
+  .about .txt{position:relative;z-index:4;min-height:100svh;width:min(46%,40rem);padding-top:140px}
+}
 @media (max-width:960px){
   .events{grid-template-columns:1fr}
   .events .pic{min-height:70vw}
@@ -182,7 +192,6 @@ footer nav a{padding:1em 0}
 
   /* story: readable text over photos, tabs you can actually tap */
   .scene::before{background:linear-gradient(180deg,rgba(22,28,0,.55) 0%,rgba(22,28,0,0) 22%,rgba(22,28,0,.25) 42%,rgba(22,28,0,.9) 72%)}
-  .line{font-weight:300}
   .story .slide.map img{object-position:50% 0;padding:84px 0 0;height:62%}
   .tabs{gap:10px;flex-wrap:nowrap}
   .tabs .wide{display:none}
@@ -211,7 +220,7 @@ footer nav a{padding:1em 0}
 /* ---------- Booking page ---------- */
 .bookpage .events{min-height:100svh}
 .bookpage .events .txt{padding-top:clamp(160px,19vh,200px)}
-.bookpage h1.line{font-weight:200}
+.bookpage h1.line{font-size:clamp(1.9rem,3.6vw,3.2rem)}
 .bookpage .intro{max-width:32rem;font-size:1.1rem;line-height:1.6;opacity:.9}
 .nav .back{display:inline-flex;align-items:center;gap:.7em}
 @media (max-width:960px){ .bookpage .events .pic{min-height:56vw;max-height:60vh} .bookpage .events .txt{padding-top:clamp(40px,7vh,70px)} }
