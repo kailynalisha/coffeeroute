@@ -269,3 +269,82 @@ footer nav a{padding:1em 0}
   .about .txt > p:not(.line){margin:0 24px 1.6rem}
   .about .txt > p:last-child{margin-bottom:64px}
 }
+
+/* =====================================================================================
+   LIGHT PALETTE (client request): beige ground, green logo, softer and brighter.
+   Colors are sampled from the owner's own printed menus.
+   ===================================================================================== */
+:root{--beige:#F7F2DE;--cream:#FFFAE6;--green:#6B7A47;--green-text:#57663A}
+body{background:var(--beige)}
+
+/* top menu */
+.nav.light::before{background:linear-gradient(180deg,rgba(247,242,222,.97) 68%,rgba(247,242,222,0))}
+.nav.light .cta{background:var(--green);color:var(--cream)}
+.nav.light .cta:hover{background:var(--olive)}
+.nav .ico{display:none;width:22px;height:22px}
+.alt{padding:.55em .8em;background:rgba(22,28,0,.82)}
+.alt.light{background:rgba(255,250,230,.92)}
+
+/* first screen */
+.hero{color:var(--olive);background:radial-gradient(120% 80% at 50% 0%,#FFFDF2 0%,var(--beige) 55%,#F1EBD2 100%)}
+.hero .what{color:var(--olive)}
+
+/* about */
+.about{background:var(--beige);color:var(--olive)}
+.about .todo{border-left-color:rgba(66,65,6,.4)}
+@media (min-width:961px){
+  .about .pic::before{background:linear-gradient(90deg,rgba(247,242,222,.97) 0%,rgba(247,242,222,.92) 30%,rgba(247,242,222,.5) 50%,rgba(247,242,222,0) 66%),linear-gradient(180deg,rgba(247,242,222,.8) 0%,rgba(247,242,222,0) 18%)}
+}
+@media (max-width:960px){
+  .about .pic::before{background:linear-gradient(180deg,rgba(247,242,222,.8) 0%,rgba(247,242,222,0) 16%,rgba(247,242,222,0) 55%,rgba(247,242,222,.88) 82%,var(--beige) 100%)}
+}
+
+/* menu: her real menu, no prices */
+.menu{background:var(--beige)}
+.menu .lists{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px) clamp(32px,5vw,80px);align-items:start}
+.menu .col{display:grid;gap:clamp(28px,4vw,48px)}
+.menu .label{display:block;color:var(--green-text);margin-bottom:.5rem}
+.menu li{display:block;padding:.5em 0;border-bottom:1px solid rgba(66,65,6,.2);font-weight:200;font-size:clamp(1.4rem,2.3vw,2.1rem);line-height:1.2}
+.menu .small li{font-weight:300;font-size:1.15rem;padding:.6em 0}
+.menu .specials{grid-column:1/-1;margin-top:clamp(56px,9vh,110px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px) clamp(24px,4vw,64px)}
+.menu .specials > .label{grid-column:1/-1;margin:0}
+.special{display:grid;grid-template-columns:minmax(110px,42%) 1fr;align-items:center;gap:clamp(14px,2.5vw,36px)}
+.special img{width:100%;height:auto;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent),linear-gradient(180deg,transparent,#000 6%,#000 94%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent),linear-gradient(180deg,transparent,#000 6%,#000 94%,transparent);mask-composite:intersect}
+.special h4{font-weight:200;font-size:clamp(1.45rem,2.4vw,2.2rem);line-height:1.15;margin-bottom:.6rem}
+.special p{font-size:1.08rem;line-height:1.55;max-width:26rem}
+@media (max-width:960px){
+  .menu .lists{grid-template-columns:1fr}
+  .menu .specials{grid-template-columns:1fr}
+}
+
+/* booking section and booking page: cream, the paper color of her Jeep drawing */
+.events:not(.about){background:var(--cream);color:var(--olive)}
+.events:not(.about) .pic::before{content:none}
+.events a.go{background:var(--green);color:var(--cream)}
+.events a.go:hover{background:var(--olive)}
+.events .pic.sketch{display:grid;place-items:center;min-height:0;padding:clamp(24px,5vw,72px)}
+.events .pic.sketch img{position:static;width:min(100%,640px);height:auto;object-fit:contain;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 97%,transparent),linear-gradient(180deg,transparent,#000 14%,#000 92%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 9%,#000 97%,transparent),linear-gradient(180deg,transparent,#000 14%,#000 92%,transparent);mask-composite:intersect}
+@media (max-width:960px){
+  .events:not(.about) .pic.sketch{aspect-ratio:auto;min-height:0;padding:84px 16px 0}
+  .events:not(.about) .pic.sketch + .txt{padding-top:28px}
+}
+
+/* form on a light ground */
+.book label,.events .book label{color:var(--green-text)}
+.book input,.book select,.book textarea{color:var(--olive);border-bottom-color:rgba(66,65,6,.35);color-scheme:light}
+.book select{background-image:linear-gradient(45deg,transparent 50%,var(--green) 50%),linear-gradient(135deg,var(--green) 50%,transparent 50%)}
+.book input:focus,.book select:focus,.book textarea:focus{border-bottom-color:var(--olive)}
+.book [aria-invalid="true"],.book [aria-invalid="true"]:focus{border-bottom-color:#B4532A}
+.book .ferr,.book .msg.err{color:#A5472A}
+.book button,.events .book button{background:var(--green);color:var(--cream)}
+.book button:hover{background:var(--olive)}
+
+/* footer: the one green ground, with the cream logo */
+footer{background:var(--green);color:var(--cream)}
+footer svg{background:var(--cream)}
+
+/* phones: Instagram shows as an icon in the top menu */
+@media (max-width:560px){
+  .nav .ig-top{display:inline-flex;align-items:center;padding:.6em 0}
+  .nav .ico{display:block}
+}

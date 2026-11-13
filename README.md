@@ -48,20 +48,20 @@ Never put the Resend key in this repo. It belongs only in Vercel's settings.
 
 ## Still to do before launch
 
-- [ ] Confirm menu items and prices (current ones come from the A-frame sign mockup)
 - [ ] Set up booking on Vercel and Resend (see "Setting up booking" above)
 - [ ] Switch booking emails to the owner's inbox before launch
 - [ ] Add the brand fonts if licensed (Tenacious and Hundrea).
 - [ ] Write the About section: replace the bracketed placeholder text with Gabriela's story
 - [ ] Add more real photos from Instagram
 
-## Brand colors
+## Colors
 
-| Name   | Hex       |
-|--------|-----------|
-| Forest | `#263000` |
-| Olive  | `#424106` |
-| Sage   | `#707C4F` |
-| Sand   | `#D4CB8C` |
-| Cream  | `#FFFBE6` |
-| Bean   | `#6D4930` |
+The site uses a light palette sampled from the owner's printed menus, with the brand manual's darker tones for text.
+
+| Name   | Hex       | Used for |
+|--------|-----------|----------|
+| Beige  | `#F7F2DE` | Page background |
+| Cream  | `#FFFAE6` | Booking section and booking page |
+| Green  | `#6B7A47` | Logo, buttons, footer |
+| Olive  | `#424106` | Text |
+| Sand   | `#D4CB8C` | Map slide |
