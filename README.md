@@ -51,7 +51,7 @@ Never put the Resend key in this repo. It belongs only in Vercel's settings.
 - [ ] Confirm menu items and prices (current ones come from the A-frame sign mockup)
 - [ ] Set up booking on Vercel and Resend (see "Setting up booking" above)
 - [ ] Switch booking emails to the owner's inbox before launch
-- [ ] Add the brand fonts if licensed (Tenacious and Hundrea). Rammetto One is standing in for headings.
+- [ ] Add the brand fonts if licensed (Tenacious and Hundrea).
 - [ ] Write the About section: replace the bracketed placeholder text with Gabriela's story
 - [ ] Add more real photos from Instagram
 
